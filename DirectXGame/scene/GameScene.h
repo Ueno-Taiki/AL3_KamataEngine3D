@@ -15,6 +15,7 @@ class GameScene {
 
 public: // メンバ関数
 	/// <summary>
+	
 	/// コンストクラタ
 	/// </summary>
 	GameScene();
@@ -43,7 +44,11 @@ private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
-	Sprite* sprite_ = nullptr;
+	Model* model_ = nullptr;
+	// ワールドトランスフォーム
+	WorldTransform worldTransfrom_;
+	// ビュープロジェクション
+	ViewProjection viewProjection_;
 	uint32_t textureHandle_ = 0;
 
 	/// <summary>
