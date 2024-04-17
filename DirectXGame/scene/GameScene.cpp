@@ -11,15 +11,28 @@ void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
+	//テクスチャーの読み込み
 	textureHandle_ = TextureManager::Load("mario.jpg");
+	//サウンドデータの読み込み
+	soundDataHandle_ = audio_->LoadWave("fanfare.wav");
+	//3Dモデルの生成
 	model_ = Model::Create();
 	//ワールドトランスフォームの初期化
 	worldTransfrom_.Initialize();
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
+	//音声再生
+	voiceHandle_ = audio_->PlayWave(soundDataHandle_, true);
+
 }
 
-void GameScene::Update() {}
+void GameScene::Update() {
+	//スペースキーを押した瞬間
+	if (input_->TriggerKey(DIK_SPACE)) {
+		// 音声停止
+		audio_->StopWave(voiceHandle_);
+	}
+}
 
 void GameScene::Draw() {
 

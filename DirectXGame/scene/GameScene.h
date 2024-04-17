@@ -44,12 +44,18 @@ private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
+	//3Dモデル
 	Model* model_ = nullptr;
 	// ワールドトランスフォーム
 	WorldTransform worldTransfrom_;
 	// ビュープロジェクション
 	ViewProjection viewProjection_;
+	//テクスチャーハンドル
 	uint32_t textureHandle_ = 0;
+	//サウンドデータハンドル
+	uint32_t soundDataHandle_ = 0;
+	//音声再生ハンドル
+	uint32_t voiceHandle_ = 0;
 
 	/// <summary>
 	/// ゲームシーン用
