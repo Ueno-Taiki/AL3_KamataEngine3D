@@ -1,35 +1,25 @@
-#include "GameScene.h"
-#include "TextureManager.h"
+#include "Player.h"
 #include <cassert>
 
-GameScene::GameScene() {}
+void Player::Initialize(Model* model, uint32_t textureHandle, ViewProjection* viewProjection) {
 
-GameScene::~GameScene() { 
-	delete model_; 
-	delete player_;
-}
+	//NULLポインタをチェック
+	assert(model);
 
-void GameScene::Initialize() {
-
-	dxCommon_ = DirectXCommon::GetInstance();
-	input_ = Input::GetInstance();
-	audio_ = Audio::GetInstance();
-	//自キャラの生成
-	player_ = new Player();
-	//自キャラの初期化
-	player_->Initialize(0,0,0);
-	//テクスチャを読み込む
-	textureHandle_ = TextureManager::Load("uvChecker.png");
-	//3Dモデルデータの生成
-	model_ = Model::Create();
-	//ビュープロジェクションの初期化
-	viewProjection_.Initialize();
+	//引数として受け取ったデータをメンバ変数に記録する
+	model_ = model;
+	textureHandle_ = textureHandle;
+	viewProjection_ = viewProjection;
+	//ワールド変数の初期化
+	worldTransfrom_.Initialize();
+	//行列を定数バッファに転送
+	worldTransfrom_.TransferMatrix();
 
 }
 
-void GameScene::Update() { player_->Update(); }
+void Player::Update() {}
 
-void GameScene::Draw() {
+void Player::Draw() {
 
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
@@ -55,7 +45,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	player_->Draw();
+	model_->Draw(worldTransfrom_, viewProjection_, textureHandle_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
