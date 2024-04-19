@@ -1,13 +1,15 @@
 #include "GameScene.h"
 #include "TextureManager.h"
 #include "ImGuiManager.h"
+#include "AxisIndicator.h"
 #include <cassert>
 
 GameScene::GameScene() {}
 
 GameScene::~GameScene() { 
 	delete sprite_;
-	delete model_; 
+	delete model_;
+	delete debugCamera_;
 }
 
 void GameScene::Initialize() {
@@ -29,6 +31,12 @@ void GameScene::Initialize() {
 	viewProjection_.Initialize();
 	//音声再生
 	voiceHandle_ = audio_->PlayWave(soundDataHandle_, true);
+	//デバッグカメラの生成
+	debugCamera_ = new DebugCamera(1280, 720);
+	//軸方向表示の表示を有効にする
+	AxisIndicator::GetInstance()->SetVisible(true);
+	//軸方向表示が参照するビュープロジェクションを指定する
+	AxisIndicator::GetInstance()->SetTargetViewProjection(&debugCamera_->GetViewProjection());
 
 }
 
@@ -48,6 +56,10 @@ void GameScene::Update() {
 		audio_->StopWave(voiceHandle_);
 	}
 
+	//デバッグカメラの更新
+	debugCamera_->Update();
+
+#ifdef _DEBUG
 	ImGui::Begin("Debug1");
 	//デバックテキストの表示
 	ImGui::Text("Kamata Tarou %d.%d.%d", 2050, 12, 31);
@@ -58,6 +70,7 @@ void GameScene::Update() {
 	ImGui::End();
 	//デモウインドウの表示を有効化
 	ImGui::ShowDemoWindow();
+#endif // DEBUG
 
 }
 
@@ -89,7 +102,7 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	// 3Dモデル描画
-	model_->Draw(worldTransfrom_, viewProjection_, textureHandle_);
+	model_->Draw(worldTransfrom_, debugCamera_->GetViewProjection(), textureHandle_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

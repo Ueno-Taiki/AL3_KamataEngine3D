@@ -7,6 +7,7 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "DebugCamera.h"
 
 /// <summary>
 /// ゲームシーン
@@ -48,6 +49,8 @@ private: // メンバ変数
 	Sprite* sprite_ = nullptr;
 	//3Dモデル
 	Model* model_ = nullptr;
+	// デバッグカメラ
+	DebugCamera* debugCamera_ = nullptr;
 	// ワールドトランスフォーム
 	WorldTransform worldTransfrom_;
 	// ビュープロジェクション
