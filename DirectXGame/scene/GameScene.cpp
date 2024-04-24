@@ -16,18 +16,21 @@ void GameScene::Initialize() {
 	audio_ = Audio::GetInstance();
 	//自キャラの生成
 	player_ = new Player();
-	//自キャラの初期化
-	player_->Initialize(0,0,0);
 	//テクスチャを読み込む
 	textureHandle_ = TextureManager::Load("uvChecker.png");
 	//3Dモデルデータの生成
 	model_ = Model::Create();
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
+	// 自キャラの初期化
+	player_->Initialize(model_, textureHandle_, &viewProjection_);
 
 }
 
-void GameScene::Update() { player_->Update(); }
+void GameScene::Update() { 
+	//自キャラの更新
+	player_->Update();
+}
 
 void GameScene::Draw() {
 
