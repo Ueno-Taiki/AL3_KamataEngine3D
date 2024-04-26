@@ -55,7 +55,7 @@ private: // メンバ変数
 	ViewProjection viewProjection_;
 
 	// ワールドトランスフォーム
-	std::vector<WorldTransform*> worldTransformBlocks_;
+	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
 
 	/// <summary>
 	/// ゲームシーン用
