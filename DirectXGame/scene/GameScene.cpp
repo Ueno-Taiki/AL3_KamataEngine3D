@@ -8,6 +8,7 @@ GameScene::~GameScene() {
 	//3Dモデルの解放
 	delete model_; 
 
+	//ブロックの解放
 	for (WorldTransform* worldTransfromBlock : worldTransformBlocks_) {
 		delete worldTransfromBlock;
 	}
@@ -37,6 +38,9 @@ void GameScene::Initialize() {
 		worldTransformBlocks_[i]->translation_.x = kBlockWidth * i;
 		worldTransformBlocks_[i]->translation_.y = 0.0f;
 	}
+
+	// ビュープロジェクションの初期化
+	viewProjection_.Initialize();
 }
 
 void GameScene::Update() {
@@ -87,7 +91,7 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	for (WorldTransform* worldTransformBlock : worldTransformBlocks_) {
-		model_->Draw(*worldTransformBlock, ViewProjection_);
+		model_->Draw(*worldTransformBlock, viewProjection_);
 	}
 
 	// 3Dオブジェクト描画後処理

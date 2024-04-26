@@ -51,11 +51,11 @@ private: // メンバ変数
 	//テクスチャハンドル
 	uint32_t textureHandle_ = 0;
 
-	// ワールドトランスフォーム
-	std::vector<WorldTransform*> worldTransformBlocks_;
-
 	// ビュープロジェクション
 	ViewProjection viewProjection_;
+
+	// ワールドトランスフォーム
+	std::vector<WorldTransform*> worldTransformBlocks_;
 
 	/// <summary>
 	/// ゲームシーン用
