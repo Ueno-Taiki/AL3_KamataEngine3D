@@ -30,7 +30,7 @@ void GameScene::Initialize() {
 	model_ = Model::CreateFromOBJ("cube");
 
 	//デバックカメラの生成
-	debugCamera_ = new DebugCamera();
+	debugCamera_ = new DebugCamera(1280, 720);
 
 	//要素数
 	const uint32_t kNumBlockVirtical = 10;
@@ -85,6 +85,25 @@ void GameScene::Update() {
 			worldTransformBlock->TransferMatrix();
 		}
 	}
+
+	//カメラの処理
+	if (isDebugCameraActive_) {
+		// デバックカメラの更新
+		debugCamera_->Update();
+		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
+		//ビュープロジェクション行列の転送
+		viewProjection_.TransferMatrix();
+	} else {
+		//ビュープロジェクション行列の更新
+		viewProjection_.UpdateMatrix();
+	}
+
+#ifdef _DEBUG
+	if (input_->TriggerKey(DIK_0)) {
+		isDebugCameraActive_ = !isDebugCameraActive_;
+	}
+#endif // !_DEBUG
 }
 
 void GameScene::Draw() {
