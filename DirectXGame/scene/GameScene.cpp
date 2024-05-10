@@ -1,5 +1,6 @@
 #include "GameScene.h"
 #include "TextureManager.h"
+#include "MathUtilityForText.h"
 #include <cassert>
 
 GameScene::GameScene() {}
@@ -68,21 +69,8 @@ void GameScene::Update() {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
 			if (!worldTransformBlock)
 				continue;
-			// 平行移動
-			Matrix4x4 result{
-			    1.0f, 0.0f, 0.0f, 0.0f,
-				0.0f, 1.0f, 0.0f, 0.0f,
-				0.0f, 0.0f, 1.0f, 0.0f,
-				worldTransformBlock->translation_.x,
-				worldTransformBlock->translation_.y,
-				worldTransformBlock->translation_.z,
-			    1.0f};
-
-			// 平行移動
-			worldTransformBlock->matWorld_ = result;
-
-			// 定数バッファに転送する
-			worldTransformBlock->TransferMatrix();
+			//アフィン変換と転移
+			worldTransformBlock->UpdateMatrix();
 		}
 	}
 
