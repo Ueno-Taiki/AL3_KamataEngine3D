@@ -12,7 +12,6 @@ void Player::Initialize(Model* model, uint32_t textureHandle, ViewProjection* vi
 	viewProjection_ = viewProjection;
 	//ワールド変数の初期化
 	worldTransfrom_.Initialize();	
-
 }
 
 void Player::Update() {

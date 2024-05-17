@@ -8,6 +8,7 @@ GameScene::GameScene() {}
 GameScene::~GameScene() { 
 	//3Dモデルの解放
 	delete model_; 
+	delete player_;
 	delete skydome_;
 	delete modelSkydome_;
 
@@ -32,14 +33,20 @@ void GameScene::Initialize() {
 	//3Dモデルデータの生成
 	model_ = Model::CreateFromOBJ("cube");
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
+	modelPlayer_ = Model::CreateFromOBJ("player", true);
+
+	//自キャラの生成
+	player_ = new Player();
+	//自キャラの初期化
+	player_->Initialize(modelPlayer_, textureHandle_, &viewProjection_);
+
+	// 天球を生成
+	skydome_ = new Skydome();
+	// 天球の初期化
+	skydome_->Initialize(modelSkydome_, textureHandle_, &viewProjection_);
 
 	//デバックカメラの生成
 	debugCamera_ = new DebugCamera(1280, 720);
-
-	//天球を生成
-	skydome_ = new Skydome();
-	//天球の初期化
-	skydome_->Initialize(modelSkydome_, textureHandle_, &viewProjection_);
 
 	//要素数
 	const uint32_t kNumBlockVirtical = 10;
@@ -83,6 +90,9 @@ void GameScene::Update() {
 			worldTransformBlock->UpdateMatrix();
 		}
 	}
+
+	//プレイヤーの更新
+	player_->Update();
 
 	//カメラの処理
 	if (isDebugCameraActive_) {
@@ -138,6 +148,10 @@ void GameScene::Draw() {
 		}
 	}
 
+	//自キャラの描画
+	player_->Draw();
+
+	//天球の描画
 	skydome_->Draw();
 
 	// 3Dオブジェクト描画後処理

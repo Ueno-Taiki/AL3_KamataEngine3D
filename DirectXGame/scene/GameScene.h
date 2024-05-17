@@ -8,6 +8,7 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "DebugCamera.h"
+#include "Player.h"
 #include "Skydome.h"
 #include <vector>
 
@@ -53,9 +54,14 @@ private: // メンバ変数
 	//テクスチャハンドル
 	uint32_t textureHandle_ = 0;
 
+	//自キャラ
+	Player* player_ = nullptr;
+	//自キャラの3Dモデル
+	Model* modelPlayer_ = nullptr;
+
 	// 天球
 	Skydome* skydome_ = nullptr;
-	//3Dモデル
+	//天球の3Dモデル
 	Model* modelSkydome_ = nullptr;
 
 	//デバックカメラ
