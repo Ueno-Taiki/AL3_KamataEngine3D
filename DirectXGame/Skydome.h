@@ -1,6 +1,10 @@
 #pragma once
 
+#include "Audio.h"
+#include "DirectXCommon.h"
+#include "Input.h"
 #include "Model.h"
+#include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 
@@ -20,13 +24,16 @@ class Skydome {
 	/// </summary>
 	void Draw();
 
-private:
+private:  //メンバ変数
+	DirectXCommon* dxCommon_ = nullptr;
+	Input* input_ = nullptr;
+	Audio* audio_ = nullptr;
+	// モデム
+	Model* model_ = nullptr;
 	//ワールド変換データ
 	WorldTransform worldTransfrom_;
-
 	//ビュープロジェクション
-	ViewProjection viewProjection_;
-
-	//モデム
-	Model* model_ = nullptr;
+	ViewProjection* viewProjection_ = nullptr;
+	// テクスチャハンドル
+	uint32_t textureHandle_ = 0u;
 };

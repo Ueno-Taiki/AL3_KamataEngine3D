@@ -36,8 +36,10 @@ void GameScene::Initialize() {
 	//デバックカメラの生成
 	debugCamera_ = new DebugCamera(1280, 720);
 
-	// 天球を生成
+	//天球を生成
 	skydome_ = new Skydome();
+	//天球の初期化
+	
 
 	//要素数
 	const uint32_t kNumBlockVirtical = 10;
