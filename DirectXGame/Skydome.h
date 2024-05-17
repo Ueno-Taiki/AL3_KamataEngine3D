@@ -9,6 +9,7 @@
 #include "WorldTransform.h"
 
 class Skydome {
+public:
 	/// <summary>
 	/// 初期化
 	/// </summary>

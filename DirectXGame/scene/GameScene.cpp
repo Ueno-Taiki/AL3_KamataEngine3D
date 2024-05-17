@@ -39,7 +39,7 @@ void GameScene::Initialize() {
 	//天球を生成
 	skydome_ = new Skydome();
 	//天球の初期化
-	
+	skydome_->Initialize(modelSkydome_, textureHandle_, &viewProjection_);
 
 	//要素数
 	const uint32_t kNumBlockVirtical = 10;
@@ -68,6 +68,7 @@ void GameScene::Initialize() {
 	}
 
 	// ビュープロジェクションの初期化
+	viewProjection_.farZ = 500;
 	viewProjection_.Initialize();
 
 }
@@ -136,6 +137,8 @@ void GameScene::Draw() {
 			model_->Draw(*worldTransformBlock, viewProjection_);
 		}
 	}
+
+	skydome_->Draw();
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
