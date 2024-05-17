@@ -8,6 +8,7 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "DebugCamera.h"
+#include "Skydome.h"
 #include <vector>
 
 /// <summary>
@@ -51,6 +52,11 @@ private: // メンバ変数
 	Model* model_ = nullptr;
 	//テクスチャハンドル
 	uint32_t textureHandle_ = 0;
+
+	// 天球
+	Skydome* skydome_ = nullptr;
+	//3Dモデル
+	Model* modelSkydome_ = nullptr;
 
 	//デバックカメラ
 	DebugCamera* debugCamera_ = nullptr;

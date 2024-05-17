@@ -8,6 +8,7 @@ GameScene::GameScene() {}
 GameScene::~GameScene() { 
 	//3Dモデルの解放
 	delete model_; 
+	delete modelSkydome_;
 
 	//ブロックの解放
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
@@ -29,6 +30,7 @@ void GameScene::Initialize() {
 
 	//3Dモデルデータの生成
 	model_ = Model::CreateFromOBJ("cube");
+	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
 
 	//デバックカメラの生成
 	debugCamera_ = new DebugCamera(1280, 720);
@@ -58,6 +60,11 @@ void GameScene::Initialize() {
 			worldTransformBlocks_[i][j]->translation_.y = kBlockHeight * i;
 		}
 	}
+
+	// 天球を生成
+	skydome_ = new Skydome;
+	// 天球の初期化
+	skydome_->Initialize();
 
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
