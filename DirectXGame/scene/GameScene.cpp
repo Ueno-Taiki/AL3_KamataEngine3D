@@ -8,6 +8,7 @@ GameScene::GameScene() {}
 GameScene::~GameScene() { 
 	//3Dモデルの解放
 	delete model_; 
+	delete skydome_;
 	delete modelSkydome_;
 
 	//ブロックの解放
@@ -34,6 +35,9 @@ void GameScene::Initialize() {
 
 	//デバックカメラの生成
 	debugCamera_ = new DebugCamera(1280, 720);
+
+	// 天球を生成
+	skydome_ = new Skydome();
 
 	//要素数
 	const uint32_t kNumBlockVirtical = 10;
@@ -63,6 +67,7 @@ void GameScene::Initialize() {
 
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
+
 }
 
 void GameScene::Update() {
