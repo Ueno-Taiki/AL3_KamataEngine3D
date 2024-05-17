@@ -61,11 +61,6 @@ void GameScene::Initialize() {
 		}
 	}
 
-	// 天球を生成
-	skydome_ = new Skydome;
-	// 天球の初期化
-	skydome_->Initialize();
-
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
 }
