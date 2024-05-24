@@ -52,7 +52,7 @@ void MapChipField::LoadMapChipCsv(const std::string& filePath) {
 		for (uint32_t j = 0; j < kNumBlockHorizontal; ++j) {
 
 			std::string word;
-			getline(line_stream, word, ",");
+			getline(line_stream, word, ',');
 
 			if (mapChipTable.contains(word)) {
 				mapChipData_.data[i][j] = mapChipTable[word];

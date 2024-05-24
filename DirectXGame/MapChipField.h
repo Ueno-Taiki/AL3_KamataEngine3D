@@ -17,9 +17,14 @@ struct MapChipData {
 
 class MapChipField {
 public:
+	//リセット
 	void ResetMapChipData();
 
+	//読み込み
 	void LoadMapChipCsv(const std::string& filePath);
+
+	uint32_t GetNumBlockVirtical() const { return kNumBlockVirtical; }
+	uint32_t GetNumBlockHorizontal() const { return kNumBlockHorizontal; }
 
 	//マップチップ種別の取得
 	MapChipType GetMapChipTypeByIndex(uint32_t xIndex, uint32_t yIndex);
