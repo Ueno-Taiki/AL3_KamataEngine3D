@@ -32,7 +32,7 @@ void GameScene::Initialize() {
 	audio_ = Audio::GetInstance();
 
 	//3Dモデルデータの生成
-	model_ = Model::CreateFromOBJ("cube");
+	model_ = Model::CreateFromOBJ("block", true);
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
 	modelPlayer_ = Model::CreateFromOBJ("player", true);
 
