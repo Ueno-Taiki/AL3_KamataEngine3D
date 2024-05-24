@@ -10,6 +10,7 @@
 #include "DebugCamera.h"
 #include "Player.h"
 #include "Skydome.h"
+#include "MapChipField.h"
 #include <vector>
 
 /// <summary>
@@ -39,6 +40,8 @@ public: // メンバ関数
 	/// </summary>
 	void Update();
 
+	void GenerateBlocks();
+
 	/// <summary>
 	/// 描画
 	/// </summary>
@@ -64,6 +67,9 @@ private: // メンバ変数
 	//天球の3Dモデル
 	Model* modelSkydome_ = nullptr;
 
+	//マップチップフィールド
+	MapChipField* mapChipField_;
+
 	//デバックカメラ
 	DebugCamera* debugCamera_ = nullptr;
 
@@ -76,8 +82,6 @@ private: // メンバ変数
 	//デバックカメラ有効
 	bool isDebugCameraActive_ = false;
 	
-
-
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
