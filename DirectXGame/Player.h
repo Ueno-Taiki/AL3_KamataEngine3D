@@ -8,6 +8,12 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 
+//左右
+enum class LRDirection {
+	kRight,
+	kLeft,
+};
+
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -16,7 +22,7 @@ public: // メンバ関数
 		/// <summary>
 		/// 初期化
 		/// </summary>
-		void Initialize(Model* model, uint32_t textureHandle, ViewProjection* viewProjection);
+		void Initialize(Model* model, ViewProjection* viewProjection, const Vector3& position);
 
 		/// <summary>
 		/// 毎フレーム処理
@@ -28,7 +34,15 @@ public: // メンバ関数
 		/// </summary>
 		void Draw();
 
-private: // メンバ変数
+private:
+	// 慣性移動
+	static inline const float kAcceleration = 0.01f;
+	static inline const float KAttenuation = 0.05f;
+	static inline const float kLimitRunSpeed = 0.2f;
+	//旋回時間
+	static inline const float kTimeTurn = 0.3f;
+
+	// メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
@@ -39,6 +53,17 @@ private: // メンバ変数
 	WorldTransform worldTransfrom_;
 	//テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
+
+	//速度
+	Vector3 velocity_ = {};
+
+	//左右
+	LRDirection lrDirection_ = LRDirection::kRight;
+
+	//旋回開始時の角度
+	float turnFirstRotationY_ = 0.0f;
+	//旋回タイマー
+	float turnTimer_ = 0.0f;
 
 	/// <summary>
 	/// ゲームシーン用
