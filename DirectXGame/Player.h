@@ -41,6 +41,12 @@ private:
 	static inline const float kLimitRunSpeed = 0.2f;
 	//旋回時間
 	static inline const float kTimeTurn = 0.3f;
+	//重力加速度
+	static inline const float kGravityAcceleration = 9.8f;
+	//最大落下速度
+	static inline const float kLimitFallSpeed = 19.6f;
+	//ジャンプ初速
+	static inline const float kJumpAcceleration = 4.0f;
 
 	// メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -64,6 +70,9 @@ private:
 	float turnFirstRotationY_ = 0.0f;
 	//旋回タイマー
 	float turnTimer_ = 0.0f;
+
+	//接地状態フラグ
+	bool onGround_ = true;
 
 	/// <summary>
 	/// ゲームシーン用
