@@ -132,5 +132,5 @@ void Player::Update() {
 
 void Player::Draw() {
 	//3Dモデル描画
-	model_->Draw(worldTransfrom_, *viewProjection_, textureHandle_);
+	model_->Draw(worldTransfrom_, *viewProjection_);
 }
