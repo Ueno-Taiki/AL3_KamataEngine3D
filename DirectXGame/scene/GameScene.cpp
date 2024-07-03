@@ -54,6 +54,19 @@ void GameScene::Initialize() {
 	//デバックカメラの生成
 	debugCamera_ = new DebugCamera(1280, 720);
 
+	//カメラコントローラーの生成
+	cameraController_ = new CameraController();
+	//カメラコントローラーの初期化
+	cameraController_->Initialize();
+	//追尾対象をセット
+	cameraController_->SetTarget(player_);
+	//リセット
+	cameraController_->Reset();
+
+	//カメラ移動範囲
+	CameraController::Rect cameraArea = {12.0f, 100 - 12.0f, 6.0f, 6.0f};
+	cameraController_->SetMovableArea(cameraArea);
+
 	GenerateBlocks();
 
 	// ビュープロジェクションの初期化
@@ -85,9 +98,14 @@ void GameScene::Update() {
 		//ビュープロジェクション行列の転送
 		viewProjection_.TransferMatrix();
 	} else {
-		//ビュープロジェクション行列の更新
-		viewProjection_.UpdateMatrix();
+		viewProjection_.matView = cameraController_->GetViewProjection().matView;
+		viewProjection_.matProjection = cameraController_->GetViewProjection().matProjection;
+		//ビュープロジェクション行列の転送
+		viewProjection_.TransferMatrix();
 	}
+
+	//カメラコントローラーの更新
+	cameraController_->Update();
 
 #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_0)) {

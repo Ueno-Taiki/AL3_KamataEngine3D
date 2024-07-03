@@ -34,6 +34,10 @@ public: // メンバ関数
 		/// </summary>
 		void Draw();
 
+		const WorldTransform& GetWorldTransform() const { return worldTransfrom_; }
+
+		const Vector3& GetVelocity() const { return velocity_; }
+
 private:
 	// 慣性移動
 	static inline const float kAcceleration = 0.01f;

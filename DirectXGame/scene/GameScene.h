@@ -11,6 +11,7 @@
 #include "Player.h"
 #include "Skydome.h"
 #include "MapChipField.h"
+#include "CameraController.h"
 #include <vector>
 
 /// <summary>
@@ -72,6 +73,9 @@ private: // メンバ変数
 
 	//デバックカメラ
 	DebugCamera* debugCamera_ = nullptr;
+
+	//カメラコントローラー
+	CameraController* cameraController_ = nullptr;
 
 	// ビュープロジェクション
 	ViewProjection viewProjection_;
