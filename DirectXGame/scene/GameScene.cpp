@@ -41,7 +41,9 @@ void GameScene::Initialize() {
 	// 天球の初期化
 	skydome_->Initialize(modelSkydome_, textureHandle_, &viewProjection_);
 
+	//マップチップフィールドの生成	
 	mapChipField_ = new MapChipField;
+	//マップチップフィールドの初期化
 	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
 
 	// 自キャラの生成
@@ -50,6 +52,8 @@ void GameScene::Initialize() {
 	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(1, 18);
 	// 自キャラの初期化
 	player_->Initialize(modelPlayer_, &viewProjection_, playerPosition);
+	//マップチップデータのセット
+	player_->SetMapChipField(mapChipField_);
 
 	//デバックカメラの生成
 	debugCamera_ = new DebugCamera(1280, 720);

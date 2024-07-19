@@ -17,6 +17,19 @@ struct MapChipData {
 
 class MapChipField {
 public:
+	struct IndexSet {
+		uint32_t xIndex;
+		uint32_t yIndex;
+	};
+
+	//範囲矩形
+	struct Rect {
+		float left;
+		float right;
+		float bottom;
+		float top;
+	};
+
 	//リセット
 	void ResetMapChipData();
 
@@ -31,6 +44,12 @@ public:
 
 	//マップチップ座標の取得
 	Vector3 GetMapChipPositionByIndex(uint32_t xIndex, uint32_t yIndex);
+
+	//座標からマップチップ番号を計算
+	IndexSet GetMapChipIndexSetByPosition(const Vector3& position);
+
+	//ブロックの範囲取得関数
+	Rect GetRectByIndex(uint32_t xIndex, uint32_t yIndex);
 
 private:
 	//1ブロックのサイズ
