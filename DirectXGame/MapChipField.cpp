@@ -39,11 +39,9 @@ void MapChipField::LoadMapChipCsv(const std::string& filePath) {
 	//ファイルを閉じる
 	file.close();
 
-	std::string line;
-
 	//CSVからマップチップデータを読み込む
 	for (int i = 0; i < kNumBlockVirtical; ++i) {
-
+		std::string line;
 		getline(mapChipCsv, line);
 
 		//1行分の文字列
@@ -77,8 +75,8 @@ Vector3 MapChipField::GetMapChipPositionByIndex(uint32_t xIndex, uint32_t yIndex
 
 MapChipField::IndexSet MapChipField::GetMapChipIndexSetByPosition(const Vector3& position) { 
 	IndexSet indexSet = {};
-	indexSet.xIndex = static_cast<uint32_t>((indexSet.xIndex + kBlockWidth / 2) / kBlockWidth);
-	indexSet.yIndex = kNumBlockVirtical - 1 - static_cast<uint32_t>((indexSet.yIndex + kBlockHeight / 2) / kBlockHeight);
+	indexSet.xIndex = static_cast<uint32_t>((position.x + kBlockWidth / 2) / kBlockWidth);
+	indexSet.yIndex = kNumBlockVirtical - 1 - static_cast<uint32_t>((position.y + kBlockHeight / 2.0f) / kBlockHeight);
 	return indexSet;
 }
 

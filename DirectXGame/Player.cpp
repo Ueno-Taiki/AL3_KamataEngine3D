@@ -218,7 +218,7 @@ void Player::CheckMapMove(const CollisionMapInfo& info) {
 void Player::CheckMapCeiling(const CollisionMapInfo& info) {
 	//天井に当たった
 	if (info.ceiling) {
-		DebugText::GetInstance(GetInstance()->ConsolePrintf("hit ceiling\n");
+		DebugText::GetInstance()->ConsolePrintf("hit ceiling\n");
 		velocity_.y = 0;
 	}
 }
