@@ -71,11 +71,17 @@ public: // メンバ関数
 		//マップ衝突判定上方向
 	    void CheckMapCollisionUp(CollisionMapInfo& info);
 
+		//マップ衝突判定下方向
+	    void CheckMapCollisionDown(CollisionMapInfo& info);
+
 		//判定結果を反映して移動させる
 		void CheckMapMove(const CollisionMapInfo& info);
 
 		//天井に接触している場合の処理
 	    void CheckMapCeiling(const CollisionMapInfo& info);
+
+		//接地状態の切り替え処理
+	    void CheckMapLanding(const CollisionMapInfo& info);
 
 		//旋回制御
 	    void AnimateTurn();
@@ -91,8 +97,13 @@ private:
 	static inline const float kGravityAcceleration = 0.05f;
 	//最大落下速度
 	static inline const float kLimitFallSpeed = 0.5f;
+	//着地時の速度減衰
+	static inline const float KAttenuationLanding = 0.1f;
 	//ジャンプ初速
 	static inline const float kJumpAcceleration = 0.5f;
+	//落下用
+	static inline const float kGroundSearchHeight = 0.06f;
+	
 	//キャラクターの当たり判定サイズ
 	static inline const float kWidth = 0.8f;
 	static inline const float kHeight = 0.8f;
