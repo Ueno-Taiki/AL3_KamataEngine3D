@@ -331,7 +331,7 @@ void Player::CheckMapCeiling(const CollisionMapInfo& info) {
 void Player::CheckMapWall(const CollisionMapInfo& info) {
 	//壁接触による減速
 	if (info.hitWall) {
-		velocity_.x += (1.0f - kAttenuationWall);
+		velocity_.x *= (1.0f - kAttenuationWall);
 	}
 }
 
