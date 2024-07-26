@@ -220,9 +220,9 @@ void Player::CheckMapCollisionDown(CollisionMapInfo& info) {
 		indexSet = mapChipField_->GetMapChipIndexSetByPosition(worldTransfrom_.translation_ + Vector3(0, -kHeight / 2.0f, 0));
 		//めり込み先ブロックの範囲矩形
 		MapChipField::Rect rect = mapChipField_->GetRectByIndex(indexSet.xIndex, indexSet.yIndex);
-		info.move.y = std::min(0.0f, rect.bottom - worldTransfrom_.translation_.y - (kHeight / 2.0f + kBlank));
+		info.move.y = std::min(0.0f, rect.top - worldTransfrom_.translation_.y - (kHeight / 2.0f + kBlank));
 		//地面に当たったことを記録する
-		info.hitWall = true;
+		info.landing = true;
 	}
 }
 
@@ -267,7 +267,7 @@ void Player::CheckMapLanding(const CollisionMapInfo& info) {
 			//着地状態に切り替える
 			onGround_ = true;
 			//着地時にX速度を減衰
-			velocity_.x *= (1.0 - KAttenuationLanding);
+			velocity_.x *= (1.0f - KAttenuationLanding);
 			//Y速度をゼロにする
 			velocity_.y = 0.0f;
 		}
