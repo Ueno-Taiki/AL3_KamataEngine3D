@@ -294,7 +294,7 @@ void Player::CheckMapCollisionLeft(CollisionMapInfo& info) {
 		indexSet = mapChipField_->GetMapChipIndexSetByPosition(worldTransfrom_.translation_ + Vector3(-kWidth / 2.0f, 0, 0));
 		// めり込み先ブロックの範囲矩形
 		MapChipField::Rect rect = mapChipField_->GetRectByIndex(indexSet.xIndex, indexSet.yIndex);
-		info.move.x = std::min(0.0f, rect.left - worldTransfrom_.translation_.x - (kWidth / 2.0f + kBlank));
+		info.move.x = std::min(0.0f, rect.left - worldTransfrom_.translation_.x + (kWidth / 2.0f + kBlank));
 		// 壁に当たったことを記録する
 		info.hitWall = true;
 	}
