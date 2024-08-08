@@ -14,9 +14,23 @@ void Enemy::Initialize(Model* model, ViewProjection* viewProjection, const Vecto
 	// ワールド変数の初期化
 	worldTransfrom_.Initialize();
 	worldTransfrom_.rotation_.y = std::numbers::pi_v<float> / -2.0f;
+
+	//速度を設定する
+	velocity_ = {-kWalkSpeed, 0, 0};
+
+	walkTimer_ = 0.0f;
 }
 
 void Enemy::Update() {
+	//移動
+	worldTransfrom_.translation_ += velocity_;
+
+	//タイマーを加算
+	walkTimer_ += 1.0f / 60.0f;
+
+	//回転アニメーション
+	worldTransfrom_.rotation_.x = std::sin(std::numbers::pi_v<float> * 2.0f * walkTimer_ / kWalkMotionTime);
+
 	//行列を更新
 	worldTransfrom_.UpdateMatrix();
 }
