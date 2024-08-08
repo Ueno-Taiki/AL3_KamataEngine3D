@@ -1,6 +1,7 @@
 #include "GameScene.h"
 #include "TextureManager.h"
 #include "MathUtilityForText.h"
+#include "Enemy.h"
 #include <cassert>
 
 GameScene::GameScene() {}
@@ -9,6 +10,7 @@ GameScene::~GameScene() {
 	//3Dモデルの解放
 	delete model_; 
 	delete player_;
+	delete enemy_;
 	delete skydome_;
 	delete modelSkydome_;
 	delete mapChipField_;
@@ -35,6 +37,7 @@ void GameScene::Initialize() {
 	model_ = Model::CreateFromOBJ("block", true);
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
 	modelPlayer_ = Model::CreateFromOBJ("player", true);
+	modelEnemy_ = Model::CreateFromOBJ("enemy", true);
 
 	// 天球を生成
 	skydome_ = new Skydome();
@@ -54,6 +57,11 @@ void GameScene::Initialize() {
 	player_->Initialize(modelPlayer_, &viewProjection_, playerPosition);
 	//マップチップデータのセット
 	player_->SetMapChipField(mapChipField_);
+
+	// 敵キャラの生成
+	enemy_ = new Enemy();
+	//敵の初期化
+	enemy_->Initialize(modelEnemy_, &viewProjection_, Vector3(15, 1, 0));
 
 	//デバックカメラの生成
 	debugCamera_ = new DebugCamera(1280, 720);
@@ -92,6 +100,9 @@ void GameScene::Update() {
 
 	//プレイヤーの更新
 	player_->Update();
+
+	//敵の更新
+	enemy_->Update();
 
 	//カメラの処理
 	if (isDebugCameraActive_) {
@@ -179,6 +190,9 @@ void GameScene::Draw() {
 
 	//自キャラの描画
 	player_->Draw();
+
+	//敵キャラの描画
+	enemy_->Draw();
 
 	//天球の描画
 	skydome_->Draw();
