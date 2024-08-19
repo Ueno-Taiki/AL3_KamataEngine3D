@@ -104,6 +104,9 @@ public: // メンバ関数
 		//衝突判定
 	    void OnCollision(const Enemy* enemy);
 
+		//デスフラグのgetter
+	    bool isDead() const { return isDead_; }
+
 private:
 	// 慣性移動
 	static inline const float kAcceleration = 0.01f;
@@ -157,6 +160,9 @@ private:
 
 	//接地状態フラグ
 	bool onGround_ = true;
+
+	//デスフラグ
+	bool isDead_ = false;
 
 	/// <summary>
 	/// ゲームシーン用

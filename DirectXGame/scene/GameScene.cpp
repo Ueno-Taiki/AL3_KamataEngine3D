@@ -38,6 +38,9 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
+	// ゲームプレイフェーズから開始
+	phase_ = Phase::kPlay;
+
 	//3Dモデルデータの生成
 	model_ = Model::CreateFromOBJ("block", true);
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
@@ -85,12 +88,6 @@ void GameScene::Initialize() {
 	//リセット
 	cameraController_->Reset();
 
-	//仮の生成処理
-	deathParticles_ = new DeathParticles;
-	player_->Update();
-	Vector3 position = player_->GetWorldPosition();
-	deathParticles_->Initialize(modeldeathParticles_, &viewProjection_, position);
-
 	//カメラ移動範囲
 	CameraController::Rect cameraArea = {12.0f, 100 - 12.0f, 6.0f, 6.0f};
 	cameraController_->SetMovableArea(cameraArea);
@@ -103,49 +100,76 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() {
-	// ブロックの更新
-	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
-		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
-			if (!worldTransformBlock)
-				continue;
-			//アフィン変換と転移
-			worldTransformBlock->UpdateMatrix();
+	ChangePhase();
+
+	switch (phase_) { 
+	case Phase::kPlay:
+		// ブロックの更新
+		for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
+			for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
+				if (!worldTransformBlock)
+					continue;
+				// アフィン変換と転移
+				worldTransformBlock->UpdateMatrix();
+			}
 		}
+
+		// プレイヤーの更新
+		player_->Update();
+
+		// 敵の更新
+		for (Enemy* enemy : enemies_) {
+			enemy->Update();
+		}
+
+		// カメラコントローラーの更新
+		cameraController_->Update();
+
+		// カメラの処理
+		if (isDebugCameraActive_) {
+			// デバックカメラの更新
+			debugCamera_->Update();
+			viewProjection_.matView = debugCamera_->GetViewProjection().matView;
+			viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
+			// ビュープロジェクション行列の転送
+			viewProjection_.TransferMatrix();
+		} else {
+			viewProjection_.matView = cameraController_->GetViewProjection().matView;
+			viewProjection_.matProjection = cameraController_->GetViewProjection().matProjection;
+			// ビュープロジェクション行列の転送
+			viewProjection_.TransferMatrix();
+		}
+
+		// 全ての当たり判定を行う
+		CheckAllCollisions();
+
+		break;
+	case Phase::kDeath:
+		// ブロックの更新
+		for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
+			for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
+				if (!worldTransformBlock)
+					continue;
+				// アフィン変換と転移
+				worldTransformBlock->UpdateMatrix();
+			}
+		}
+
+		// 敵の更新
+		for (Enemy* enemy : enemies_) {
+			enemy->Update();
+		}
+
+		// デスパーティクルの更新
+		if (deathParticles_) {
+			deathParticles_->Update();
+		}
+
+		// カメラコントローラーの更新
+		cameraController_->Update();
+
+		break;
 	}
-
-	//プレイヤーの更新
-	player_->Update();
-
-	//敵の更新
-	for (Enemy* enemy : enemies_) {
-		enemy->Update();
-	}
-
-	//カメラの処理
-	if (isDebugCameraActive_) {
-		// デバックカメラの更新
-		debugCamera_->Update();
-		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
-		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
-		//ビュープロジェクション行列の転送
-		viewProjection_.TransferMatrix();
-	} else {
-		viewProjection_.matView = cameraController_->GetViewProjection().matView;
-		viewProjection_.matProjection = cameraController_->GetViewProjection().matProjection;
-		//ビュープロジェクション行列の転送
-		viewProjection_.TransferMatrix();
-	}
-
-	//カメラコントローラーの更新
-	cameraController_->Update();
-
-	//デスパーティクルの更新
-	if (deathParticles_) {
-		deathParticles_->Update();
-	}
-
-	//全ての当たり判定を行う
-	CheckAllCollisions();
 
 #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_0)) {
@@ -206,6 +230,28 @@ void GameScene::CheckAllCollisions() {
 	#pragma endregion
 }
 
+void GameScene::ChangePhase() {
+	switch (phase_) { 
+	case Phase::kPlay:
+		if (player_->isDead()) {
+			//死亡演出フェーズに切り替え
+			phase_ = Phase::kDeath;
+			//自キャラの座標を取得
+			const Vector3& deathParticlesPosition = player_->GetWorldPosition();
+
+			// 自キャラの座標にデスパーティクルを発生、初期化
+			deathParticles_ = new DeathParticles;
+			deathParticles_->Initialize(modeldeathParticles_, &viewProjection_, deathParticlesPosition);
+		}
+		break;
+	case Phase::kDeath:
+		if (deathParticles_) {
+			deathParticles_->Update();
+		}
+		break;
+	}
+}
+
 void GameScene::Draw() {
 
 	// コマンドリストの取得
@@ -241,7 +287,9 @@ void GameScene::Draw() {
 	}
 
 	//自キャラの描画
-	player_->Draw();
+	if (!player_->isDead()) {
+		player_->Draw();
+	}
 
 	//敵キャラの描画
 	for (Enemy* enemy : enemies_) {

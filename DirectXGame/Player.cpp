@@ -430,6 +430,6 @@ AABB Player::GetAABB() {
 //衝突応用
 void Player::OnCollision(const Enemy* enemy) { 
 	(void)enemy;
-	//ジャンプ開始
-	velocity_ += Vector3(0.0f, 0.1f, 0.0f);
+	//当たったら死ぬ
+	isDead_ = true;
 }

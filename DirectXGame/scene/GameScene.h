@@ -16,6 +16,11 @@
 #include "DeathParticles.h"
 #include <vector>
 
+enum class Phase { 
+	kPlay,  //ゲームプレイ
+	kDeath, //デス演出
+};
+
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -48,6 +53,9 @@ public: // メンバ関数
 	//全ての当たり判定を行う
 	void CheckAllCollisions();
 
+	//フェーズ切り替え
+	void ChangePhase();
+
 	/// <summary>
 	/// 描画
 	/// </summary>
@@ -57,6 +65,9 @@ private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
+
+	// ゲームの現在フェーズ
+	Phase phase_;
 
 	// 3Dモデルデータ
 	Model* model_ = nullptr;
