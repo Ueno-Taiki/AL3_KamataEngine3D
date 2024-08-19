@@ -64,8 +64,6 @@ private: // メンバ変数
 	//自キャラの3Dモデル
 	Model* modelPlayer_ = nullptr;
 
-	//敵キャラ
-	Enemy* enemy_ = nullptr;
 	//敵キャラの3Dモデル
 	Model* modelEnemy_ = nullptr;
 
@@ -91,6 +89,9 @@ private: // メンバ変数
 
 	//デバックカメラ有効
 	bool isDebugCameraActive_ = false;
+
+	//敵の複数化
+	std::list<Enemy*> enemies_;
 	
 	/// <summary>
 	/// ゲームシーン用
