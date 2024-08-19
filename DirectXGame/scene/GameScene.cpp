@@ -13,6 +13,7 @@ GameScene::~GameScene() {
 	delete skydome_;
 	delete modelSkydome_;
 	delete mapChipField_;
+
 	delete deathParticles_;
 
 	//敵削除
@@ -89,7 +90,7 @@ void GameScene::Initialize() {
 	cameraController_->Reset();
 
 	//カメラ移動範囲
-	CameraController::Rect cameraArea = {12.0f, 100 - 12.0f, 6.0f, 6.0f};
+	CameraController::Rect cameraArea = { 12.0f, 100 - 12.0f, 6.0f, 6.0f };
 	cameraController_->SetMovableArea(cameraArea);
 
 	GenerateBlocks();
@@ -102,7 +103,7 @@ void GameScene::Initialize() {
 void GameScene::Update() {
 	ChangePhase();
 
-	switch (phase_) { 
+	switch (phase_) {
 	case Phase::kPlay:
 		// ブロックの更新
 		for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
@@ -133,7 +134,8 @@ void GameScene::Update() {
 			viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
 			// ビュープロジェクション行列の転送
 			viewProjection_.TransferMatrix();
-		} else {
+		}
+		else {
 			viewProjection_.matView = cameraController_->GetViewProjection().matView;
 			viewProjection_.matProjection = cameraController_->GetViewProjection().matProjection;
 			// ビュープロジェクション行列の転送
@@ -167,6 +169,10 @@ void GameScene::Update() {
 
 		// カメラコントローラーの更新
 		cameraController_->Update();
+
+		if (deathParticles_ && deathParticles_->IsFinished()) {
+			finished_ = true;
+		}
 
 		break;
 	}
@@ -248,6 +254,7 @@ void GameScene::ChangePhase() {
 		if (deathParticles_) {
 			deathParticles_->Update();
 		}
+		
 		break;
 	}
 }

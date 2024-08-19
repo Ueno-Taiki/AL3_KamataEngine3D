@@ -14,6 +14,7 @@
 #include "MapChipField.h"
 #include "CameraController.h"
 #include "DeathParticles.h"
+#include "TitleScene.h"
 #include <vector>
 
 enum class Phase { 
@@ -55,6 +56,9 @@ public: // メンバ関数
 
 	//フェーズ切り替え
 	void ChangePhase();
+
+	//デスフラグのgetter
+	bool IsFinished() const { return finished_; }
 
 	/// <summary>
 	/// 描画
@@ -112,6 +116,9 @@ private: // メンバ変数
 
 	//敵の複数化
 	std::list<Enemy*> enemies_;
+
+	//終了フラグ
+	bool finished_ = false;
 	
 	/// <summary>
 	/// ゲームシーン用
