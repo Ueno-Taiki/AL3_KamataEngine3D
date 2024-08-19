@@ -13,6 +13,7 @@ GameScene::~GameScene() {
 	delete skydome_;
 	delete modelSkydome_;
 	delete mapChipField_;
+	delete deathParticles_;
 
 	//敵削除
 	for (Enemy* enemy : enemies_) {
@@ -42,6 +43,7 @@ void GameScene::Initialize() {
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
 	modelPlayer_ = Model::CreateFromOBJ("player", true);
 	modelEnemy_ = Model::CreateFromOBJ("enemy", true);
+	modeldeathParticles_ = Model::CreateFromOBJ("deathParticle", true);
 
 	// 天球を生成
 	skydome_ = new Skydome();
@@ -82,6 +84,12 @@ void GameScene::Initialize() {
 	cameraController_->SetTarget(player_);
 	//リセット
 	cameraController_->Reset();
+
+	//仮の生成処理
+	deathParticles_ = new DeathParticles;
+	player_->Update();
+	Vector3 position = player_->GetWorldPosition();
+	deathParticles_->Initialize(modeldeathParticles_, &viewProjection_, position);
 
 	//カメラ移動範囲
 	CameraController::Rect cameraArea = {12.0f, 100 - 12.0f, 6.0f, 6.0f};
@@ -130,6 +138,11 @@ void GameScene::Update() {
 
 	//カメラコントローラーの更新
 	cameraController_->Update();
+
+	//デスパーティクルの更新
+	if (deathParticles_) {
+		deathParticles_->Update();
+	}
 
 	//全ての当たり判定を行う
 	CheckAllCollisions();
@@ -237,6 +250,11 @@ void GameScene::Draw() {
 
 	//天球の描画
 	skydome_->Draw();
+
+	//デスパーティクルの描画
+	if (deathParticles_) {
+		deathParticles_->Draw();
+	}
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

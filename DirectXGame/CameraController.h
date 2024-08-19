@@ -16,7 +16,7 @@ public:
 		float top = 1.0f;    // 上側
 	};
 
-	//カメラの目的座標
+	// カメラの目的座標
 	Vector3 objective;
 
 	/// <summary>
@@ -40,16 +40,16 @@ public:
 private:
 	Player* target_ = nullptr;
 
-	//座標補間割合
+	// 座標補間割合
 	static inline const float kInterpolationRate = 0.1f;
-	//速度掛け率
+	// 速度掛け率
 	static inline const float kVelocityBias = 30.0f;
-	//追従対象の各方向へのカメラ移動範囲
-	static inline const Rect margin = { -5.0f, 5.0f, -5.0f, 5.0f };
+	// 追従対象の各方向へのカメラ移動範囲
+	static inline const Rect margin = {-5.0f, 5.0f, -5.0f, 5.0f};
 
-	//追尾対策とカメラの座標の差
+	// 追尾対策とカメラの座標の差
 	Vector3 targetOffset_ = {0, 0, -15.0f};
-	//カメラ移動範囲
+	// カメラ移動範囲
 	Rect movableArea_ = {0, 100, 0, 100};
 
 	// ビュープロジェクション

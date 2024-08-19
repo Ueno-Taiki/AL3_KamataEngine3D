@@ -13,6 +13,7 @@
 #include "Skydome.h"
 #include "MapChipField.h"
 #include "CameraController.h"
+#include "DeathParticles.h"
 #include <vector>
 
 /// <summary>
@@ -83,6 +84,11 @@ private: // メンバ変数
 
 	//カメラコントローラー
 	CameraController* cameraController_ = nullptr;
+
+	//デスパーティクル
+	DeathParticles* deathParticles_ = nullptr;
+	//デスパーティクルの3Dモデル
+	Model* modeldeathParticles_ = nullptr;
 
 	// ビュープロジェクション
 	ViewProjection viewProjection_;
