@@ -16,7 +16,7 @@ public:
 		float top = 1.0f;    // 上側
 	};
 
-	// カメラの目的座標
+	//カメラの目的座標
 	Vector3 objective;
 
 	/// <summary>
