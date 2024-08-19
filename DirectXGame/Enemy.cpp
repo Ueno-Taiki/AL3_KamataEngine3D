@@ -47,7 +47,7 @@ Vector3  Enemy::GetWorldPosition()  {
 	// ワールド行列の平行移動成文を取得
 	worldPos.x = worldTransfrom_.matWorld_.m[3][0];
 	worldPos.y = worldTransfrom_.matWorld_.m[3][1];
-	worldPos.y = worldTransfrom_.matWorld_.m[3][2];
+	worldPos.z = worldTransfrom_.matWorld_.m[3][2];
 
 	return worldPos;
 }
@@ -59,7 +59,7 @@ AABB Enemy::GetAABB() {
 	AABB aabb = {};
 
 	aabb.min = {worldPos.x - kWidth / 2.0f, worldPos.y - kHeight / 2.0f, worldPos.z - kWidth / 2.0f};
-	aabb.max = {worldPos.x + kWidth / 2.0f, worldPos.y - kHeight / 2.0f, worldPos.z + kWidth / 2.0f};
+	aabb.max = {worldPos.x + kWidth / 2.0f, worldPos.y + kHeight / 2.0f, worldPos.z + kWidth / 2.0f};
 
 	return aabb;
 }
