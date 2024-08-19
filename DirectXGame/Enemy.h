@@ -5,6 +5,8 @@
 #include "MathUtilityForText.h"
 #include "ViewProjection.h"
 
+class Player;
+
 class Enemy {
 public:
 	/// <summary>
@@ -21,6 +23,15 @@ public:
 	/// 描画
 	/// </summary>
 	void Draw();
+
+	//ワールド座標を取得
+	Vector3 GetWorldPosition();
+
+	//AABBを取得
+	AABB GetAABB();
+
+	//衝突応答
+	void OnCollision(const Player* player);
 
 private:
 	// ワールドトランスフォーム
@@ -42,6 +53,10 @@ private:
 	static inline const float kWalkMotionAngleEnd = 30.0f;
 	//アニメーションの周期となる時間[秒]
 	static inline const float kWalkMotionTime = 1.0f;
+
+	//敵の当たり判定サイズ
+	static inline const float kWidth = 0.8f;
+	static inline const float kHeight = 0.8f;
 	
 	//経過時間
 	float walkTimer_ = 0.0f;

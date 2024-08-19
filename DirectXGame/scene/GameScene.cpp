@@ -131,6 +131,9 @@ void GameScene::Update() {
 	//カメラコントローラーの更新
 	cameraController_->Update();
 
+	//全ての当たり判定を行う
+	CheckAllCollisions();
+
 #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_0)) {
 		isDebugCameraActive_ = !isDebugCameraActive_;
@@ -161,6 +164,33 @@ void GameScene::GenerateBlocks() {
 			}
 		}
 	}
+}
+
+void GameScene::CheckAllCollisions() {
+	#pragma region 自キャラと敵キャラの当たり判定
+
+	{
+		//判定対象1と2の座標
+		AABB aabb1, aabb2;
+
+		//自キャラの座標
+		aabb1 = player_->GetAABB();
+
+		//自キャラと敵弾全ての当たり判定
+		for (Enemy* enemy : enemies_) {
+			//敵弾の座標
+			aabb2 = enemy->GetAABB();
+
+			//AABB同士の交差判定
+			if (IsCollision(aabb1, aabb2)) {
+				//自キャラの衝突時コールバックを呼び出す
+				player_->OnCollision(enemy);
+				//敵弾の衝突時コールバックを呼び出す
+				enemy->OnCollision(player_);
+			}
+		}
+	}
+	#pragma endregion
 }
 
 void GameScene::Draw() {

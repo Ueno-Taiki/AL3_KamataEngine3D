@@ -63,3 +63,24 @@ float Lerp(float x1, float x2, float t) { return (1.0f - t) * x1 + t * x2; }
 Vector3 Lerp(const Vector3& v1, const Vector3& v2, float t) { 
 	return Vector3(Lerp(v1.x, v2.x, t), Lerp(v1.y, v2.y, t), Lerp(v1.z, v2.z, t)); 
 }
+
+// 衝突判定
+bool IsCollision(const AABB& aabb1, const AABB& aabb2) {
+	// x軸方向の判定
+	if (aabb1.max.x < aabb2.min.x || aabb1.min.x > aabb2.max.x) {
+		return false;
+	}
+
+	// y軸方向の判定
+	if (aabb1.max.y < aabb2.min.y || aabb1.min.y > aabb2.max.y) {
+		return false;
+	}
+
+	// z軸方向の判定
+	if (aabb1.max.z < aabb2.min.z || aabb1.min.z > aabb2.max.z) {
+		return false;
+	}
+
+	// 全ての軸で重なっていれば衝突している
+	return true;
+}

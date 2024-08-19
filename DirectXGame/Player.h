@@ -7,6 +7,7 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "MathUtilityForText.h"
 
 //左右
 enum class LRDirection {
@@ -16,9 +17,8 @@ enum class LRDirection {
 
 class MapChipField;
 
-/// <summary>
-/// ゲームシーン
-/// </summary>
+class Enemy;
+
 class Player {
 public: // メンバ関数
 	//マップとの当たり判定情報
@@ -75,7 +75,7 @@ public: // メンバ関数
 	    void CheckMapCollisionDown(CollisionMapInfo& info);
 
 		//マップ衝突判定右方向
-		void CheckMapCollisionRight(CollisionMapInfo& info);
+	    void CheckMapCollisionRight(CollisionMapInfo& info);
 
 		//マップ衝突判定左方向
 	    void CheckMapCollisionLeft(CollisionMapInfo& info);
@@ -94,6 +94,15 @@ public: // メンバ関数
 
 		//旋回制御
 	    void AnimateTurn();
+
+		//ワールド座標を取得
+	    Vector3 GetWorldPosition();
+
+		//AABBを取得
+	    AABB GetAABB();
+
+		//衝突判定
+	    void OnCollision(const Enemy* enemy);
 
 private:
 	// 慣性移動

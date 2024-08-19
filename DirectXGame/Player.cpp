@@ -402,3 +402,34 @@ void Player::AnimateTurn() {
 		worldTransfrom_.rotation_.y = EaseInOut(destinationRotationY, turnFirstRotationY_, turnTimer_ / kTimeTurn);
 	}
 }
+
+//ワールド座標を取得
+Vector3 Player::GetWorldPosition() { 
+	// ワールド座標を入れる変数
+	Vector3 worldPos = {};
+	// ワールド行列の平行移動成文を取得
+	worldPos.x = worldTransfrom_.matWorld_.m[3][0];
+	worldPos.y = worldTransfrom_.matWorld_.m[3][1];
+	worldPos.y = worldTransfrom_.matWorld_.m[3][2];
+
+	return worldPos;
+}
+
+//AABBを取得
+AABB Player::GetAABB() { 
+	Vector3 worldPos = GetWorldPosition();
+
+	AABB aabb = {};
+
+	aabb.min = {worldPos.x - kWidth / 2.0f, worldPos.y - kHeight / 2.0f, worldPos.z - kWidth / 2.0f};
+	aabb.max = {worldPos.x + kWidth / 2.0f, worldPos.y - kHeight / 2.0f, worldPos.z + kWidth / 2.0f};
+
+	return aabb; 
+}
+
+//衝突応用
+void Player::OnCollision(const Enemy* enemy) { 
+	(void)enemy;
+	//ジャンプ開始
+	velocity_ += Vector3(0.0f, 0.1f, 0.0f);
+}
