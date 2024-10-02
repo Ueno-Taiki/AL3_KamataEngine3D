@@ -70,56 +70,6 @@ private: // メンバ変数
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 
-	// ゲームの現在フェーズ
-	Phase phase_;
-
-	// 3Dモデルデータ
-	Model* model_ = nullptr;
-	//テクスチャハンドル
-	uint32_t textureHandle_ = 0;
-
-	//自キャラ
-	Player* player_ = nullptr;
-	//自キャラの3Dモデル
-	Model* modelPlayer_ = nullptr;
-
-	//敵キャラの3Dモデル
-	Model* modelEnemy_ = nullptr;
-
-	// 天球
-	Skydome* skydome_ = nullptr;
-	//天球の3Dモデル
-	Model* modelSkydome_ = nullptr;
-
-	//マップチップフィールド
-	MapChipField* mapChipField_;
-
-	//デバックカメラ
-	DebugCamera* debugCamera_ = nullptr;
-
-	//カメラコントローラー
-	CameraController* cameraController_ = nullptr;
-
-	//デスパーティクル
-	DeathParticles* deathParticles_ = nullptr;
-	//デスパーティクルの3Dモデル
-	Model* modeldeathParticles_ = nullptr;
-
-	// ビュープロジェクション
-	ViewProjection viewProjection_;
-
-	// ワールドトランスフォーム
-	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
-
-	//デバックカメラ有効
-	bool isDebugCameraActive_ = false;
-
-	//敵の複数化
-	std::list<Enemy*> enemies_;
-
-	//終了フラグ
-	bool finished_ = false;
-	
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
