@@ -31,7 +31,22 @@ void Player::Update() {
 		move.x += kCharacterSpeed;
 	}
 
+	//押した方向で移動ベクトルを変更(上下)
+	if (input_->PushKey(DIK_UP)) {
+		move.y -= kCharacterSpeed;
+	} else if (input_->PushKey(DIK_DOWN)) {
+		move.y += kCharacterSpeed;
+	}
 
+	//座標移動(ベクトルの加算)
+	worldTransform_.translation_ += move;
+
+	for (WorldTransform* worldTransformBlock : worldTransformBlocks_) {
+
+	}
+
+	//定数バッファに転送する
+	
 
 	//行列を定数バッファに転送
 	worldTransform_.TransferMatrix();
