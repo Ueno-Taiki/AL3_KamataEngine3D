@@ -1,6 +1,8 @@
 #include <cassert>
 #include "Player.h"
 #include "Input.h"
+#include "MathUtilityForText.h"
+#include "ImGuiManager.h"
 
 void Player::Initialize(Model* model, uint32_t textureHandle) {
 	//NULLポインタチャック
@@ -33,23 +35,40 @@ void Player::Update() {
 
 	//押した方向で移動ベクトルを変更(上下)
 	if (input_->PushKey(DIK_UP)) {
-		move.y -= kCharacterSpeed;
-	} else if (input_->PushKey(DIK_DOWN)) {
 		move.y += kCharacterSpeed;
+	} else if (input_->PushKey(DIK_DOWN)) {
+		move.y -= kCharacterSpeed;
 	}
 
 	//座標移動(ベクトルの加算)
 	worldTransform_.translation_ += move;
 
 	for (WorldTransform* worldTransformBlock : worldTransformBlocks_) {
+		//アフィン変換作成
+		Matrix4x4 matWorld = MakeAffineMatrix(worldTransformBlock->scale_, worldTransformBlock->rotation_, worldTransformBlock->translation_);
+		worldTransformBlock->matWorld_ = matWorld;
 
+		//定数バッファに転送する
+		worldTransformBlock->TransferMatrix();
 	}
 
-	//定数バッファに転送する
-	
+	//キャラクターの座標を画面表示する処理
+	ImGui::Begin(" ");
+	ImGui::SliderFloat3("player", &worldTransform_.translation_.x, 0.0f, 1.0f);
+	ImGui::End();
 
-	//行列を定数バッファに転送
-	worldTransform_.TransferMatrix();
+	//移動限界座標
+	const float kMoveLimitX = 35.0f;
+	const float kMoveKimitY = 19.0f;
+
+	//範囲を超えない処理
+	worldTransform_.translation_.x = max(worldTransform_.translation_.x, -kMoveLimitX);
+	worldTransform_.translation_.x = min(worldTransform_.translation_.x, +kMoveLimitX);
+	worldTransform_.translation_.y = max(worldTransform_.translation_.y, -kMoveKimitY);
+	worldTransform_.translation_.y = min(worldTransform_.translation_.y, +kMoveKimitY);
+
+	//アフィン変換と転送
+	worldTransform_.UpdateMatrix();
 }
 
 void Player::Draw(ViewProjection& viewProjection) { 

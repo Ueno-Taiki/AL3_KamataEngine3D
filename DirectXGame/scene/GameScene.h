@@ -54,8 +54,14 @@ private: // メンバ変数
 	// 自キャラ
 	Player* player_ = nullptr;
 
+	// デバックカメラ
+	DebugCamera* debugCamera_ = nullptr;
+
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
+
+	//デバックカメラ有効
+	bool isDebugCameraActive_ = false;
 
 	/// <summary>
 	/// ゲームシーン用

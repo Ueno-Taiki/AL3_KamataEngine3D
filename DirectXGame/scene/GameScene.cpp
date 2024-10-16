@@ -1,5 +1,6 @@
 #include "GameScene.h"
 #include "TextureManager.h"
+#include "DebugCamera.h"
 #include <cassert>
 
 GameScene::GameScene() {}
@@ -26,6 +27,9 @@ void GameScene::Initialize() {
 	player_ = new Player();
 	//自キャラの初期化
 	player_->Initialize(model_, textureHandle_);
+
+	//デバックカメラの生成
+	debugCamera_ = new DebugCamera();
 
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
