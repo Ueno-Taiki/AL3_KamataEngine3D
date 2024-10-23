@@ -1,5 +1,6 @@
 #pragma once
 
+#include <list>
 #include "Model.h"
 #include "Input.h"
 #include "WorldTransform.h"
@@ -11,6 +12,11 @@ public:
 	/// 初期化
 	/// </summary>
 	void Initialize(Model* model, uint32_t textureHandle);
+
+	/// </summary>
+	/// デストラクタ
+	/// </summary>
+	~Player();
 
 	/// </summary>
 	/// 初期化
@@ -40,7 +46,7 @@ private:
 	Input* input_ = nullptr;
 
 	//弾
-	PlayerBullet* bullet_ = nullptr;
+	std::list<PlayerBullet*> bullets_;
 
 	std::vector<WorldTransform*> worldTransformBlocks_;
 };
