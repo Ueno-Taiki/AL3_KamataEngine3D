@@ -3,6 +3,7 @@
 #include "Model.h"
 #include "Input.h"
 #include "WorldTransform.h"
+#include "PlayerBullet.h"
 
 class Player {
 public:
@@ -21,6 +22,12 @@ public:
 	/// </summary>
 	void Draw(ViewProjection& viewProjection);
 
+	//旋回
+	void Rotate();
+
+	//攻撃
+	void Attack();
+
 private:
 	//ワールド変換データ
 	WorldTransform worldTransform_;
@@ -31,6 +38,9 @@ private:
 
 	//キーボード入力
 	Input* input_ = nullptr;
+
+	//弾
+	PlayerBullet* bullet_ = nullptr;
 
 	std::vector<WorldTransform*> worldTransformBlocks_;
 };

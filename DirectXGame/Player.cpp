@@ -2,7 +2,6 @@
 #include "Player.h"
 #include "Input.h"
 #include "MathUtilityForText.h"
-#include "ImGuiManager.h"
 
 void Player::Initialize(Model* model, uint32_t textureHandle) {
 	//NULLポインタチャック
@@ -52,10 +51,16 @@ void Player::Update() {
 		worldTransformBlock->TransferMatrix();
 	}
 
-	//キャラクターの座標を画面表示する処理
-	ImGui::Begin(" ");
-	ImGui::SliderFloat3("player", &worldTransform_.translation_.x, 0.0f, 1.0f);
-	ImGui::End();
+	//旋回
+	Rotate();
+
+	//攻撃
+	Attack();
+
+	//弾更新
+	if (bullet_) {
+		bullet_->Update();
+	}
 
 	//移動限界座標
 	const float kMoveLimitX = 35.0f;
@@ -73,5 +78,36 @@ void Player::Update() {
 
 void Player::Draw(ViewProjection& viewProjection) { 
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
+
+	//弾描画
+	if (bullet_) {
+		bullet_->Draw(viewProjection);
+	}
+}
+
+//旋回
+void Player::Rotate() {
+	//回転速さ[ラジアン/frame]
+	const float kRotSpeed = 0.02f;
+
+	//押した方向で移動ベクトルを変更
+	if (input_->PushKey(DIK_A)) {
+		worldTransform_.rotation_.y -= kRotSpeed;
+	} else if (input_->PushKey(DIK_D)) {
+		worldTransform_.rotation_.y += kRotSpeed;
+	}
+}
+
+//攻撃
+void Player::Attack() { 
+	if (input_->PushKey(DIK_SPACE)) {
+
+		//弾を生成し、初期化
+		PlayerBullet* newBullet = new PlayerBullet();
+		newBullet->Initialize(model_, worldTransform_.translation_);
+
+		//弾を登録する
+		bullet_ = newBullet;
+	}
 }
 
