@@ -9,6 +9,8 @@ GameScene::~GameScene() {
 	delete model_;
 	//自キャラの解放
 	delete player_;
+	//敵キャラの解放
+	delete enemy_;
 }
 
 void GameScene::Initialize() {
@@ -22,11 +24,19 @@ void GameScene::Initialize() {
 
 	//ファイルを指定してテクスチャを読み込む
 	textureHandle_ = TextureManager::Load("mario.jpg");
+	enemyHandle_ = TextureManager::Load("enemy.jpg");
 
 	//自キャラの生成
 	player_ = new Player();
 	//自キャラの初期化
 	player_->Initialize(model_, textureHandle_);
+
+	//敵キャラの生成
+	enemy_ = new Enemy();
+	//敵キャラの座標
+	Vector3 enemyPosition = {0, 2, 40};
+	//敵キャラの初期化
+	enemy_->Initialize(model_, enemyHandle_, enemyPosition);
 
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
@@ -35,6 +45,9 @@ void GameScene::Initialize() {
 void GameScene::Update() {
 	//自キャラの更新
 	player_->Update();
+	
+	//敵キャラの更新
+	enemy_->Update();
 }
 
 void GameScene::Draw() {
@@ -66,6 +79,9 @@ void GameScene::Draw() {
 	
 	//自キャラの描画
 	player_->Draw(viewProjection_);
+
+	//敵キャラの描画
+	enemy_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
