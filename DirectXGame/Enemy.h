@@ -5,6 +5,15 @@
 
 class Enemy {
 public:
+	// 行動フェーズ
+	enum class Phase {
+		Approach, // 接近する
+		Leave,    // 離脱する
+	};
+
+	// フェーズ
+	Phase phase_ = Phase::Approach;
+
 	/// </summary>
 	/// 初期化
 	/// </summary>
@@ -20,6 +29,12 @@ public:
 	/// </summary>
 	void Draw(ViewProjection& viewProjection);
 
+	//接近
+	void Approach(const Vector3& vector);
+
+	//離脱
+	void Leave(const Vector3& vector);
+
 private:
 	//ワールド変換データ
 	WorldTransform worldTransform_;
@@ -27,4 +42,7 @@ private:
 	Model* model_ = nullptr;
 	//テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
+
+	//敵の速度
+	static inline const float kBulletSpeed = -0.5f;
 };
