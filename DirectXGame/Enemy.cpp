@@ -15,20 +15,26 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle, const Vector3& posi
 	worldTransform_.translation_ = position;
 }
 
+Enemy::~Enemy() {
+	//bullet_の解放
+	for (EnemyBullet* bullet : bullets_) {
+		delete bullet;
+	}
+}
+
 void Enemy::Update() {
 	//接近フェーズの速度
 	Vector3 velocity(0, 0, kBulletSpeed);
-	//離脱フェーズの速度
-	Vector3 leaveVelocity(kBulletSpeed, -kBulletSpeed, 0);
 
-	switch (phase_) {
-	case Phase::Approach:
-	default:
-		Approach(velocity);
-		break;
-	case Phase::Leave:
-		Leave(leaveVelocity);
-		break;
+	//接近フェーズ初期化
+	ApproachInitialize();
+
+	//接近
+	Approach(velocity);
+
+	//弾更新
+	for (EnemyBullet* bullet : bullets_) {
+		bullet->Update();
 	}
 
 	//アフィン変換と転送
@@ -36,21 +42,44 @@ void Enemy::Update() {
 }
 
 void Enemy::Draw(ViewProjection& viewProjection) { 
-	model_->Draw(worldTransform_, viewProjection, textureHandle_); 
+	model_->Draw(worldTransform_, viewProjection, textureHandle_);
+
+	//弾描画
+	for (EnemyBullet* bullet : bullets_) {
+		bullet->Draw(viewProjection);
+	}
 }
 
 //接近
 void Enemy::Approach(const Vector3& vector) {
-	// 移動(ベクトルを加算)
-	worldTransform_.translation_ += vector;
-	// 規定の位置に到達したら離脱
-	if (worldTransform_.translation_.z < 0.0f) {
-		phase_ = Phase::Leave;
+	//指定時間に達した
+	if (--timer <= 0) {
+		//弾を発射
+		Fire();
+		//発射タイマーを初期化
+		timer = kFireInterval;
 	}
+
+	//移動(ベクトルを加算)
+	worldTransform_.translation_ += vector;
 }
 
-//離脱
-void Enemy::Leave(const Vector3& vector) {
-	// 移動(ベクトルを加算)
-	worldTransform_.translation_ += vector;
+//弾発射
+void Enemy::Fire() {
+	//弾の速度
+	const float kEnemyBulletSpeed = -1.0f;
+	Vector3 velocity(0, 0, kEnemyBulletSpeed);
+
+	//弾を生成し、初期化
+	EnemyBullet* newBullet = new EnemyBullet();
+	newBullet->Initialize(model_, worldTransform_.translation_, velocity);
+
+	//弾を登録する
+	bullets_.push_back(newBullet);
+}
+
+//接近フェーズ初期化
+void Enemy::ApproachInitialize() {
+	//発射タイマーを初期化
+	timer = kFireInterval;
 }
