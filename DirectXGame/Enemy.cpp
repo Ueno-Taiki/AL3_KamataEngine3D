@@ -10,6 +10,9 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle, const Vector3& posi
 	model_ = model;
 	textureHandle_ = textureHandle;
 
+	//接近フェーズ初期化
+	ApproachInitialize();
+
 	// ワールド変換の初期化
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = position;
@@ -25,9 +28,6 @@ Enemy::~Enemy() {
 void Enemy::Update() {
 	//接近フェーズの速度
 	Vector3 velocity(0, 0, kBulletSpeed);
-
-	//接近フェーズ初期化
-	ApproachInitialize();
 
 	//接近
 	Approach(velocity);
