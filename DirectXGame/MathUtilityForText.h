@@ -17,6 +17,10 @@ Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Ve
 Vector3& operator+=(Vector3& lhv, const Vector3& rhv);
 const Vector3 operator+(const Vector3& v1, const Vector3& v2);
 
+//Vector3の引き算
+Vector3& operator-=(Vector3& lhv, const Vector3& rhv);
+const Vector3 operator-(const Vector3& v1, const Vector3& v2);
+
 //Vector3の掛け算
 Vector3& operator*=(Vector3& v, float s);
 const Vector3 operator*(const Vector3& v, float s);
@@ -37,3 +41,9 @@ Vector3 Transform(const Vector3& vector, const Matrix4x4& matrix);
 
 //ベクトル変換
 Vector3 TransformNormal(const Vector3& v, const Matrix4x4& m);
+
+//内積
+float Dot(const Vector3& v1, const Vector3& v2);
+
+//正規化
+Vector3 Normalize(const Vector3& v);

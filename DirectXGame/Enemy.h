@@ -41,7 +41,7 @@ public:
 	void ApproachInitialize();
 
 	//ワールド座標を取得
-	Vector3 GetWorldPosition();
+	Vector3 GetWorldPosition() const;
 
 	void SetPlayer(Player* player) { player_ = player; }
 

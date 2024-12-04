@@ -74,19 +74,19 @@ void Enemy::Fire() {
 	Vector3 velocity(0, 0, kEnemyBulletSpeed);
 
 	//自キャラのワールド座標を取得する
-	player_->GetWorldPosition();
+	Vector3 playerPosition = player_->GetWorldPosition();
 
 	//敵キャラのワールド座標を取得する
-	GetWorldPosition();
+	Vector3 enemyPosition = GetWorldPosition();
 
 	//敵キャラから自キャラへの差分ベクトルを求める
-	
+	Vector3 direction = playerPosition - enemyPosition;
 
 	//ベクトルの正規化
-
+	Normalize(direction);
 
 	//ベクトルの長さを、速さに合わせる
-
+	velocity = direction * kEnemyBulletSpeed;
 
 	//弾を生成し、初期化
 	EnemyBullet* newBullet = new EnemyBullet();
@@ -103,9 +103,9 @@ void Enemy::ApproachInitialize() {
 }
 
 //ワールド座標を取得
-Vector3 Enemy::GetWorldPosition() { 
+Vector3 Enemy::GetWorldPosition() const { 
 	//ワールド座標を入れる変数
-	Vector3 worldPos;
+	Vector3 worldPos = {};
 	//ワールド行列の平行移動成分を取得
 	worldPos.x = worldTransform_.translation_.x;
 	worldPos.y = worldTransform_.translation_.y;
