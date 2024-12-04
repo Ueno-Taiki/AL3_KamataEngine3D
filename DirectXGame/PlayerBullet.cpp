@@ -10,7 +10,7 @@ void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vecto
 	model_ = model;
 	velocity_ = velocity;
 	//テクスチャ読み込み
-	textureHandle_ = TextureManager::Load("uvChecker.png");
+	textureHandle_ = TextureManager::Load("PlayerBullet.png");
 
 	//ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
