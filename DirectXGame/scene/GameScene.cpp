@@ -38,6 +38,9 @@ void GameScene::Initialize() {
 	//敵キャラの初期化
 	enemy_->Initialize(model_, enemyHandle_, enemyPosition);
 
+	//敵キャラに自キャラのアドレスを表す
+	enemy_->SetPlayer(player_);
+
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
 }

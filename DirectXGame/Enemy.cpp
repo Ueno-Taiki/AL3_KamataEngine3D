@@ -1,5 +1,6 @@
 #include <cassert>
 #include "Enemy.h"
+#include "Player.h"
 #include "MathUtilityForText.h"
 
 void Enemy::Initialize(Model* model, uint32_t textureHandle, const Vector3& position) {
@@ -66,9 +67,26 @@ void Enemy::Approach(const Vector3& vector) {
 
 //弾発射
 void Enemy::Fire() {
+	assert(player_);
+
 	//弾の速度
 	const float kEnemyBulletSpeed = -1.0f;
 	Vector3 velocity(0, 0, kEnemyBulletSpeed);
+
+	//自キャラのワールド座標を取得する
+	player_->GetWorldPosition();
+
+	//敵キャラのワールド座標を取得する
+	GetWorldPosition();
+
+	//敵キャラから自キャラへの差分ベクトルを求める
+	
+
+	//ベクトルの正規化
+
+
+	//ベクトルの長さを、速さに合わせる
+
 
 	//弾を生成し、初期化
 	EnemyBullet* newBullet = new EnemyBullet();
@@ -82,4 +100,16 @@ void Enemy::Fire() {
 void Enemy::ApproachInitialize() {
 	//発射タイマーを初期化
 	timer = kFireInterval;
+}
+
+//ワールド座標を取得
+Vector3 Enemy::GetWorldPosition() { 
+	//ワールド座標を入れる変数
+	Vector3 worldPos;
+	//ワールド行列の平行移動成分を取得
+	worldPos.x = worldTransform_.translation_.x;
+	worldPos.y = worldTransform_.translation_.y;
+	worldPos.z = worldTransform_.translation_.z;
+
+	return worldPos; 
 }

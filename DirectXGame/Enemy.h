@@ -6,6 +6,9 @@
 #include "WorldTransform.h"
 #include "EnemyBullet.h"
 
+//自機クラスの前方宣言
+class Player;
+
 class Enemy {
 public:
 	/// </summary>
@@ -37,6 +40,11 @@ public:
 	//接近フェーズ初期化
 	void ApproachInitialize();
 
+	//ワールド座標を取得
+	Vector3 GetWorldPosition();
+
+	void SetPlayer(Player* player) { player_ = player; }
+
 public:
 	//発射間隔
 	static const int kFireInterval = 60;
@@ -48,6 +56,9 @@ private:
 	Model* model_ = nullptr;
 	//テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
+
+	//自キャラ
+	Player* player_ = nullptr;
 
 	//敵の速度
 	static inline const float kBulletSpeed = -0.05f;
