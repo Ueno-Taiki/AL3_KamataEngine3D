@@ -70,8 +70,7 @@ void Enemy::Fire() {
 	assert(player_);
 
 	//弾の速度
-	const float kEnemyBulletSpeed = -1.0f;
-	Vector3 velocity(0, 0, kEnemyBulletSpeed);
+	const float kEnemyBulletSpeed = 0.05f;
 
 	//自キャラのワールド座標を取得する
 	Vector3 playerPosition = player_->GetWorldPosition();
@@ -86,7 +85,7 @@ void Enemy::Fire() {
 	Normalize(direction);
 
 	//ベクトルの長さを、速さに合わせる
-	velocity = direction * kEnemyBulletSpeed;
+	Vector3 velocity = direction * kEnemyBulletSpeed;
 
 	//弾を生成し、初期化
 	EnemyBullet* newBullet = new EnemyBullet();
