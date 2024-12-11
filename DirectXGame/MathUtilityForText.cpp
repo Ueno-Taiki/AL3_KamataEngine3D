@@ -170,3 +170,11 @@ Vector3 Normalize(const Vector3& v) {
 
 	return result;
 }
+
+//距離計算
+float CalculateDistanceSquared(const Vector3& posA, const Vector3& posB) {
+	float a = posA.x - posB.x;
+	float b = posA.y - posB.y;
+	float c = posA.z - posB.z;
+	return a * a + b * b + c * c;
+}

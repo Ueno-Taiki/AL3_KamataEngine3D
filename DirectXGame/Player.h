@@ -40,6 +40,9 @@ public:
 	//衝突を検出したら呼び出されるコールバック関数
 	void OnCollision();
 
+	//自機の半径
+	float GetRadius() const { return 1.5f; }
+
 	//弾リストを取得
 	const std::list<PlayerBullet*>& GetBullets() const { return bullets_; }
 

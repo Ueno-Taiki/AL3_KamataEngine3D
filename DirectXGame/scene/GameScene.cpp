@@ -52,6 +52,9 @@ void GameScene::Update() {
 	
 	//敵キャラの更新
 	enemy_->Update();
+
+	//大親分による判定
+	CheckAllCollisions();
 }
 
 void GameScene::Draw() {
@@ -111,7 +114,7 @@ void GameScene::CheckAllCollisions() {
 	Vector3 posA, posB;
 
 	//自弾リストの取得
-	//const std::list<PlayerBullet*>& playerBullets = player_->GetBullets();
+	const std::list<PlayerBullet*>& playerBullets = player_->GetBullets();
 	//敵弾リストの取得
 	const std::list<EnemyBullet*>& enemyBullets = enemy_->GetBullets();
 
@@ -125,13 +128,10 @@ void GameScene::CheckAllCollisions() {
 		posB = bullet->GetWorldPosition();
 
 		//座標AとBの距離を求める
-		float a = posA.x - posB.x;
-		float b = posA.y - posB.y;
-		float c = posA.z - posB.z;
-		float distance = sqrtf(a * a + b * b + c * c);
+		float distance = CalculateDistanceSquared(posA, posB);
 
 		//球と球の交差判定
-		if (distance <= 1.5f + 1.5f) {
+		if (distance <= player_->GetRadius() + bullet->GetRadius()) {
 			//自キャラの衝突時コールバックを呼び出す
 			player_->OnCollision();
 			//敵弾の衝突時コールバックを呼び出す
@@ -141,8 +141,48 @@ void GameScene::CheckAllCollisions() {
 	#pragma endregion
 
 	#pragma region 自弾と敵キャラの当たり判定
+	//敵キャラの座標
+	posA = enemy_->GetWorldPosition();
+
+	//自弾と敵キャラ全ての当たり判定
+	for (PlayerBullet* bullet : playerBullets) {
+		//自弾の座標
+		posB = bullet->GetWorldPosition();
+
+		//座標AとBの距離を求める
+		float distance = CalculateDistanceSquared(posA, posB);
+
+		//球と球の交差判定
+		if (distance <= enemy_->GetRadius() + bullet->GetRadius()) {
+			//敵キャラの衝突時コールバックを呼び出す
+			enemy_->OnCollision();
+			//自弾の衝突時コールバックを呼び出す
+			bullet->OnCollision();
+		}
+	}
     #pragma endregion
 
 	#pragma region 自弾と敵弾の当たり判定
+	//自弾の座標
+	for (PlayerBullet* playerBullet : playerBullets) {
+		posA = playerBullet->GetWorldPosition();
+
+		//自弾と敵弾全ての当たり判定
+		for (EnemyBullet* enemyBullet : enemyBullets) {
+			// 敵弾の座標
+			posB = enemyBullet->GetWorldPosition();
+
+			// 座標AとBの距離を求める
+			float distance = CalculateDistanceSquared(posA, posB);
+
+			// 球と球の交差判定
+			if (distance <= playerBullet->GetRadius() + enemyBullet->GetRadius()) {
+				// 自キャラの衝突時コールバックを呼び出す
+				playerBullet->OnCollision();
+				// 敵弾の衝突時コールバックを呼び出す
+				enemyBullet->OnCollision();
+			}
+		}
+	}
     #pragma endregion
 }

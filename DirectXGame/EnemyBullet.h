@@ -26,6 +26,9 @@ public:
 	//衝突を検出したら呼び出されるコールバック関数
 	void OnCollision();
 
+	//敵弾の半径
+	float GetRadius() const { return 1.5f; }
+
 	//デスフラグ
 	bool IsDead() const { return isDead_; }
 

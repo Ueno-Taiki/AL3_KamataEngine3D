@@ -32,8 +32,10 @@ void PlayerBullet::Update() {
 }
 
 void PlayerBullet::Draw(ViewProjection& viewProjection) {
-	//モデルの描画
-	model_->Draw(worldTransform_, viewProjection, textureHandle_);
+	if (!isDead_) {
+		// モデルの描画
+		model_->Draw(worldTransform_, viewProjection, textureHandle_);
+	}
 }
 
 //ワールド座標を取得
