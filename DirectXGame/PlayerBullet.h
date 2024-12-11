@@ -20,6 +20,12 @@ public:
 	/// </summary>
 	void Draw(ViewProjection& viewProjection);
 
+	//ワールド座標を取得
+	Vector3 GetWorldPosition() const;
+
+	//衝突を検出したら呼び出されるコールバック関数
+	void OnCollision();
+
 	bool IsDead() const { return isDead_; }
 
 private:

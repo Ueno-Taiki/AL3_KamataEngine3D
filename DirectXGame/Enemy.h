@@ -43,7 +43,14 @@ public:
 	//ワールド座標を取得
 	Vector3 GetWorldPosition() const;
 
+	//衝突を検出したら呼び出されるコールバック関数
+	void OnCollision();
+
+	//setterの利用
 	void SetPlayer(Player* player) { player_ = player; }
+
+	//弾リストを取得
+	const std::list<EnemyBullet*>& GetBullets() const { return bullets_; }
 
 public:
 	//発射間隔
