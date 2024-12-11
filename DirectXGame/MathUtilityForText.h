@@ -48,5 +48,3 @@ float Dot(const Vector3& v1, const Vector3& v2);
 //正規化
 Vector3 Normalize(const Vector3& v);
 
-//距離計算
-float CalculateDistanceSquared(const Vector3& posA, const Vector3& posB);

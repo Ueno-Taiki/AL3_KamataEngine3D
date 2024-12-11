@@ -111,7 +111,7 @@ void GameScene::CheckAllCollisions() {
 	Vector3 posA, posB;
 
 	//自弾リストの取得
-	const std::list<PlayerBullet*>& playerBullets = player_->GetBullets();
+	//const std::list<PlayerBullet*>& playerBullets = player_->GetBullets();
 	//敵弾リストの取得
 	const std::list<EnemyBullet*>& enemyBullets = enemy_->GetBullets();
 
@@ -125,11 +125,13 @@ void GameScene::CheckAllCollisions() {
 		posB = bullet->GetWorldPosition();
 
 		//座標AとBの距離を求める
-		float distanceSquared = CalculateDistanceSquared(posA, posB);
+		float a = posA.x - posB.x;
+		float b = posA.y - posB.y;
+		float c = posA.z - posB.z;
+		float distance = sqrtf(a * a + b * b + c * c);
 
 		//球と球の交差判定
-		float radiusSum = player_->GetRadius() + bullet->GetRadius();
-		if (distanceSquared < radiusSum * radiusSum) {
+		if (distance <= 1.5f + 1.5f) {
 			//自キャラの衝突時コールバックを呼び出す
 			player_->OnCollision();
 			//敵弾の衝突時コールバックを呼び出す
