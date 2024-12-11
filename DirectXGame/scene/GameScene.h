@@ -9,6 +9,7 @@
 #include "WorldTransform.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "Skydome.h"
 
 /// <summary>
 /// ゲームシーン
@@ -62,6 +63,10 @@ private: // メンバ変数
 	Enemy* enemy_ = nullptr;
 	//敵キャラのテクスチャハンドル
 	uint32_t enemyHandle_ = 0;
+
+	//天球
+	Skydome* skydome_ = nullptr;
+	Model* modelSkydome_ = nullptr;
 
 	//ビュープロジェクション
 	ViewProjection viewProjection_;

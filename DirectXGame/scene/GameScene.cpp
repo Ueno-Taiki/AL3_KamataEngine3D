@@ -12,6 +12,8 @@ GameScene::~GameScene() {
 	delete player_;
 	//敵キャラの解放
 	delete enemy_;
+	//天球の解放
+	delete modelSkydome_;
 }
 
 void GameScene::Initialize() {
@@ -22,10 +24,16 @@ void GameScene::Initialize() {
 
 	//3Dモデルデータの生成
 	model_ = Model::Create();
+	modelSkydome_ = Model::CreateFromOBJ("SkyDome", true);
 
 	//ファイルを指定してテクスチャを読み込む
 	textureHandle_ = TextureManager::Load("mario.jpg");
 	enemyHandle_ = TextureManager::Load("enemy.jpg");
+
+	//天球を生成
+	skydome_ = new Skydome();
+	//天球の初期化
+	skydome_->Initialize(modelSkydome_, textureHandle_, &viewProjection_);
 
 	//自キャラの生成
 	player_ = new Player();
@@ -84,6 +92,9 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	
+	//天球の描画
+	skydome_->Draw();
+
 	//自キャラの描画
 	player_->Draw(viewProjection_);
 
