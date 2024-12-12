@@ -12,7 +12,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize();
+	void Initialize(const Vector3& positon, const Vector3& radian);
 
 	/// <summary>
 	/// 毎フレーム処理

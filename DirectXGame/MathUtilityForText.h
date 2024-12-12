@@ -51,3 +51,7 @@ Vector3 Normalize(const Vector3& v);
 //距離計算
 float CalculateDistanceSquared(const Vector3& posA, const Vector3& posB);
 
+//逆行列
+Matrix4x4 Inverse(const Matrix4x4& m);
+
+

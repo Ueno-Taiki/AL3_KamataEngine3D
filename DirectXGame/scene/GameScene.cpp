@@ -52,8 +52,12 @@ void GameScene::Initialize() {
 
 	//レールカメラの生成
 	railCamera_ = new RailCamera();
+	//レールカメラの座標
+	Vector3 railCameraPosition = {0, 0, -20};
+	//レールカメラの角度
+	Vector3 railCameraRadius = {0, 0, -20};
 	//レールカメラの初期化
-	railCamera_->Initialize();
+	railCamera_->Initialize(railCameraPosition, railCameraRadius);
 
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
