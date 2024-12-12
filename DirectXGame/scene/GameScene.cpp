@@ -50,6 +50,11 @@ void GameScene::Initialize() {
 	//敵キャラに自キャラのアドレスを表す
 	enemy_->SetPlayer(player_);
 
+	//レールカメラの生成
+	railCamera_ = new RailCamera();
+	//レールカメラの初期化
+	railCamera_->Initialize();
+
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
 }
@@ -60,6 +65,9 @@ void GameScene::Update() {
 	
 	//敵キャラの更新
 	enemy_->Update();
+
+	//レールカメラの更新
+	railCamera_->Update();
 
 	//大親分による判定
 	CheckAllCollisions();
