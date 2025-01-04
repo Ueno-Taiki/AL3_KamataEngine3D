@@ -6,6 +6,37 @@
 #include "PrimitiveDrawer.h"
 #include "TextureManager.h"
 #include "WinApp.h"
+#include "TitleScene.h"
+#include "GameClear.h"
+#include "GameOver.h"
+
+GameScene* gameScene = nullptr;
+TitleScene* titleScene = nullptr;
+GameClear* gameClear = nullptr;
+GameOver* gameOver = nullptr;
+
+// シーン
+enum class Scene {
+
+	kUnknown = 0,
+
+	kTitle,
+	kGame,
+	kGameCler,
+	kGameOver
+};
+
+//現在シーン
+Scene scene = Scene::kUnknown;
+
+//シーン切り替え処理
+void ChangeScene();
+
+//シーンの更新
+void UpdateScene();
+
+//シーンの描画
+void DrawScene();
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -16,7 +47,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Audio* audio = nullptr;
 	AxisIndicator* axisIndicator = nullptr;
 	PrimitiveDrawer* primitiveDrawer = nullptr;
-	GameScene* gameScene = nullptr;
 
 	// ゲームウィンドウの作成
 	win = WinApp::GetInstance();
@@ -57,9 +87,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	primitiveDrawer->Initialize();
 #pragma endregion
 
-	// ゲームシーンの初期化
-	gameScene = new GameScene();
-	gameScene->Initialize();
+	//最初のシーンの初期化
+	scene = Scene::kTitle;
+	titleScene = new TitleScene;
+	titleScene->Initialize();
 
 	// メインループ
 	while (true) {
@@ -72,8 +103,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		imguiManager->Begin();
 		// 入力関連の毎フレーム処理
 		input->Update();
-		// ゲームシーンの毎フレーム処理
-		gameScene->Update();
+		//シーン切り替え
+		ChangeScene();
+		//現在のシーン
+		UpdateScene();
 		// 軸表示の更新
 		axisIndicator->Update();
 		// ImGui受付終了
@@ -81,8 +114,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		// 描画開始
 		dxCommon->PreDraw();
-		// ゲームシーンの描画
-		gameScene->Draw();
+		//現在のシーンの描画
+		DrawScene();
 		// 軸表示の描画
 		axisIndicator->Draw();
 		// プリミティブ描画のリセット
@@ -105,4 +138,109 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	win->TerminateGameWindow();
 
 	return 0;
+}
+
+void ChangeScene() {
+	switch (scene) {
+	case Scene::kTitle:
+		if (Input::GetInstance()->TriggerKey(DIK_SPACE)) {
+			titleScene->StopMusic();
+			//シーンの変更
+			scene = Scene::kGame;
+			//旧シーンの解放
+			delete titleScene;
+			titleScene = nullptr;
+			//新シーンの生成と初期化
+			gameScene = new GameScene;
+			gameScene->Initialize();
+		}
+		break;
+	case Scene::kGame:
+		// 勝った時
+		if (Input::GetInstance()->TriggerKey(DIK_1)) {
+			// シーンの変更
+			scene = Scene::kGameCler;
+			// 旧シーンの解放
+			delete gameScene;
+			gameScene = nullptr;
+			// 新シーンの生成と初期化
+			gameClear = new GameClear();
+			gameClear->Initialize();
+		}
+		// 死んだ時
+		else if (Input::GetInstance()->TriggerKey(DIK_2)) {
+			// シーンの変更
+			scene = Scene::kGameOver;
+			// 旧シーンの解放
+			delete gameScene;
+			gameScene = nullptr;
+			// 新シーンの生成と初期化
+			gameOver = new GameOver();
+			gameOver->Initialize();
+		}
+
+		break;
+	case Scene::kGameCler:
+
+		if (Input::GetInstance()->TriggerKey(DIK_SPACE)) {
+			// シーンの変更
+			scene = Scene::kTitle;
+			// 旧シーンの解放
+			delete gameClear;
+			gameClear = nullptr;
+			// 新シーンの生成と初期化
+			titleScene = new TitleScene;
+			titleScene->Initialize();
+		}
+
+		break;
+	case Scene::kGameOver:
+
+		if (Input::GetInstance()->TriggerKey(DIK_SPACE)) {
+			// シーンの変更
+			scene = Scene::kTitle;
+			// 旧シーンの解放
+			delete gameOver;
+			gameOver = nullptr;
+			// 新シーンの生成と初期化
+			titleScene = new TitleScene;
+			titleScene->Initialize();
+		}
+
+		break;
+	}
+}
+
+void UpdateScene() {
+	switch (scene) {
+	case Scene::kTitle:
+		titleScene->Update();
+		break;
+	case Scene::kGame:
+		gameScene->Update();
+		break;
+	case Scene::kGameCler:
+		gameClear->Update();
+		break;
+	case Scene::kGameOver:
+		gameOver->Update();
+		break;
+	}
+}
+
+void DrawScene() {
+	switch (scene) {
+	case Scene::kTitle:
+		titleScene->Draw();
+		break;
+	case Scene::kGame:
+		gameScene->Draw();
+		break;
+	case Scene::kGameCler:
+		gameClear->Draw();
+		break;
+	case Scene::kGameOver:
+		gameOver->Draw();
+		break;
+	}
 }
