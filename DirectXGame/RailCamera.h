@@ -6,6 +6,7 @@
 #include "Model.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "DebugCamera.h"
 
 class RailCamera {
 public:
@@ -24,4 +25,7 @@ private:
 	WorldTransform worldTransfrom_;
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
+
+	//デバックカメラ
+	DebugCamera* debugCamera_ = nullptr;
 };

@@ -7,21 +7,25 @@ void RailCamera::Initialize(const Vector3& positon, const Vector3& radian) {
 	//ワールドトランスフォームの初期設定
 	worldTransfrom_.translation_ = positon;
 	worldTransfrom_.rotation_ = radian;
-	 
-	//ワールド変換の初期化
-	worldTransfrom_.Initialize();
 
+	//デバックカメラの生成
+	debugCamera_ = new DebugCamera();
+	
 	//ビュープロジェクションの初期化
-	viewProjection_.farZ = 600;
+	//viewProjection_.farZ = 600;
 	viewProjection_.Initialize();
 }
 
 void RailCamera::Update() {
 	//ワールドトランスフォームの座標の数値を加算
-	viewProjection_.translation_ += Vector3(0.0f, 0.0f, 0.1f);
+	worldTransfrom_.translation_.x += 0.1f;
+	worldTransfrom_.translation_.y += 0.1f;
+	worldTransfrom_.translation_.z += 0.1f;
 
 	//ワールドトランスフォームの角度の数値を加算
-	viewProjection_.rotation_.y += 0.01f;
+	worldTransfrom_.rotation_.x += 1.0f;
+	worldTransfrom_.rotation_.y += 1.0f;
+	worldTransfrom_.rotation_.z += 1.0f;
 
 	//カメラオブジェクトのワールド行列からビュー行列を計算する
 	viewProjection_.matView = Inverse(worldTransfrom_.matWorld_);
