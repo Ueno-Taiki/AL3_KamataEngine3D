@@ -14,6 +14,8 @@ GameScene::~GameScene() {
 	delete enemy_;
 	//天球の解放
 	delete modelSkydome_;
+	//音声停止
+	audio_->StopWave(voiceHandle_);
 }
 
 void GameScene::Initialize() {
@@ -29,6 +31,9 @@ void GameScene::Initialize() {
 	//ファイルを指定してテクスチャを読み込む
 	textureHandle_ = TextureManager::Load("mario.jpg");
 	enemyHandle_ = TextureManager::Load("enemy.jpg");
+
+	//BGM読み込み
+	BGM = audio_->LoadWave("BGM/BGM.wav");
 
 	//天球を生成
 	skydome_ = new Skydome();
@@ -50,6 +55,9 @@ void GameScene::Initialize() {
 	//敵キャラに自キャラのアドレスを表す
 	enemy_->SetPlayer(player_);
 
+	//音声再生
+	voiceHandle_ = audio_->PlayWave(BGM, true);
+
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
 }
@@ -60,6 +68,16 @@ void GameScene::Update() {
 	
 	//敵キャラの更新
 	enemy_->Update();
+
+	//プレイヤーが死んだ時
+	if (player_->isDead()) {
+		finished_ = true;
+	}
+
+	//敵が死んだ時
+	if (enemy_->isDead()) {
+		cleared_ = true;
+	}
 
 	//大親分による判定
 	CheckAllCollisions();

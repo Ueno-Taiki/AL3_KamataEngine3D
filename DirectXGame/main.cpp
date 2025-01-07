@@ -133,6 +133,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	audio->Finalize();
 	// ImGui解放
 	imguiManager->Finalize();
+	delete titleScene;
 
 	// ゲームウィンドウの破棄
 	win->TerminateGameWindow();
@@ -156,8 +157,8 @@ void ChangeScene() {
 		}
 		break;
 	case Scene::kGame:
-		// 勝った時
-		if (Input::GetInstance()->TriggerKey(DIK_1)) {
+		// 生き残った時
+		if (gameScene->IsCleared()) {
 			// シーンの変更
 			scene = Scene::kGameCler;
 			// 旧シーンの解放
@@ -168,7 +169,7 @@ void ChangeScene() {
 			gameClear->Initialize();
 		}
 		// 死んだ時
-		else if (Input::GetInstance()->TriggerKey(DIK_2)) {
+		else if (gameScene->IsFinished()) {
 			// シーンの変更
 			scene = Scene::kGameOver;
 			// 旧シーンの解放

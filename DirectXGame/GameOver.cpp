@@ -5,7 +5,7 @@
 GameOver::~GameOver() { 
 	delete sprite_; 
 	//音声停止
-	//audio_->StopWave(voiceHandle_);
+	audio_->StopWave(voiceHandle_);
 }
 
 void GameOver::Initialize() {
@@ -21,13 +21,13 @@ void GameOver::Initialize() {
 	textureHandle_ = TextureManager::Load("GameOver.png");
 
 	// BGM・SE読み込み
-	//Gameover = audio_->LoadWave("BGM/GameOver.wav");
+	Gameover = audio_->LoadWave("SE/GameOver.wav");
 
 	//スプライトの生成
 	sprite_ = Sprite::Create(textureHandle_, {0, 0});
 
 	//音声再生
-	//voiceHandle_ = audio_->PlayWave(Gameover, true);
+	voiceHandle_ = audio_->PlayWave(Gameover, false);
 
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();

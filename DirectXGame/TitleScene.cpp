@@ -19,13 +19,13 @@ void TitleScene::Initialize() {
 	textureHandle_ = TextureManager::Load("Title.png");
 
 	//BGM・SE読み込み
-	//GameStart = audio_->LoadWave("BGM/GameStart.wav");
+	GameStart = audio_->LoadWave("BGM/GameStart.wav");
 
 	//スプライトの生成
 	sprite_ = Sprite::Create(textureHandle_, {0, 0});
 
 	//音声再生
-	//voiceHandle_ = audio_->PlayWave(GameStart, true);
+	voiceHandle_ = audio_->PlayWave(GameStart, true);
 
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();

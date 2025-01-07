@@ -55,6 +55,9 @@ public:
 	//弾リストを取得
 	const std::list<EnemyBullet*>& GetBullets() const { return bullets_; }
 
+	//デスフラグのgetter
+	bool isDead() const { return isDead_; }
+
 public:
 	//発射間隔
 	static const int kFireInterval = 60;
@@ -78,4 +81,7 @@ private:
 
 	//発射タイマー
 	int32_t timer = 0;
+
+	//デスフラグ
+	bool isDead_ = false;
 };

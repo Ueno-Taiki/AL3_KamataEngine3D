@@ -43,7 +43,9 @@ void Enemy::Update() {
 }
 
 void Enemy::Draw(ViewProjection& viewProjection) { 
-	model_->Draw(worldTransform_, viewProjection, textureHandle_);
+	if (!isDead_) {
+		model_->Draw(worldTransform_, viewProjection, textureHandle_);
+	}
 
 	//弾描画
 	for (EnemyBullet* bullet : bullets_) {
@@ -54,11 +56,13 @@ void Enemy::Draw(ViewProjection& viewProjection) {
 //接近
 void Enemy::Approach(const Vector3& vector) {
 	//指定時間に達した
-	if (--timer <= 0) {
-		//弾を発射
-		Fire();
-		//発射タイマーを初期化
-		timer = kFireInterval;
+	if (!isDead_) {
+		if (--timer <= 0) {
+			// 弾を発射
+			Fire();
+			// 発射タイマーを初期化
+			timer = kFireInterval;
+		}
 	}
 
 	//移動(ベクトルを加算)
@@ -114,4 +118,6 @@ Vector3 Enemy::GetWorldPosition() const {
 }
 
 //衝突を検出したら呼び出されるコールバック関数
-void Enemy::OnCollision() {}
+void Enemy::OnCollision() { 
+	isDead_ = true;
+}

@@ -5,7 +5,7 @@
 GameClear::~GameClear() { 
 	delete sprite_; 
 	//音声停止
-	//audio_->StopWave(voiceHandle_);
+	audio_->StopWave(voiceHandle_);
 }
 
 void GameClear::Initialize() {
@@ -21,13 +21,13 @@ void GameClear::Initialize() {
 	textureHandle_ = TextureManager::Load("GameClear.png");
 
 	//BGM・SE読み込み
-	//Gameclear = audio_->LoadWave("BGM/GameClear.wav");
+	Gameclear = audio_->LoadWave("SE/GameClear.wav");
 
 	//スプライトの生成
 	sprite_ = Sprite::Create(textureHandle_, {0, 0});
 
 	//音声再生
-	//voiceHandle_ = audio_->PlayWave(Gameclear, true);
+	voiceHandle_ = audio_->PlayWave(Gameclear, false);
 
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();

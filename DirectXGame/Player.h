@@ -46,6 +46,9 @@ public:
 	//弾リストを取得
 	const std::list<PlayerBullet*>& GetBullets() const { return bullets_; }
 
+	//デスフラグのgetter
+	bool isDead() const { return isDead_; }
+
 private:
 	//ワールド変換データ
 	WorldTransform worldTransform_;
@@ -61,4 +64,7 @@ private:
 	std::list<PlayerBullet*> bullets_;
 
 	std::vector<WorldTransform*> worldTransformBlocks_;
+
+	//デスフラグ
+	bool isDead_ = false;
 };

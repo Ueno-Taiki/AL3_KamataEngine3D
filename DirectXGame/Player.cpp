@@ -71,7 +71,9 @@ void Player::Update() {
 	Rotate();
 
 	//攻撃
-	Attack();
+	if (!isDead_) {
+		Attack();
+	}
 
 	//弾更新
 	for (PlayerBullet* bullet : bullets_) {
@@ -93,7 +95,9 @@ void Player::Update() {
 }
 
 void Player::Draw(ViewProjection& viewProjection) { 
-	model_->Draw(worldTransform_, viewProjection, textureHandle_);
+	if (!isDead_) {
+		model_->Draw(worldTransform_, viewProjection, textureHandle_);
+	}
 
 	//弾描画
 	for (PlayerBullet* bullet : bullets_) {
@@ -146,5 +150,7 @@ Vector3 Player::GetWorldPosition() const {
 }
 
 //衝突を検出したら呼び出されるコールバック関数
-void Player::OnCollision() {}
+void Player::OnCollision() { 
+	isDead_ = true; 
+}
 

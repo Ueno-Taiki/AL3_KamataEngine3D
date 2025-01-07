@@ -45,6 +45,12 @@ public: // メンバ関数
 	//大親分による判定
 	void CheckAllCollisions();
 
+	//クリアフラグのgetter
+	bool IsCleared() const { return cleared_; }
+
+	//デスフラグのgetter
+	bool IsFinished() const { return finished_; }
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -68,11 +74,18 @@ private: // メンバ変数
 	Skydome* skydome_ = nullptr;
 	Model* modelSkydome_ = nullptr;
 
+	//サウンドデータハンドル
+	uint32_t BGM = 0;
+
+	//音声再生ハンドル
+	uint32_t voiceHandle_ = 0;
+
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
 
-	//デバックカメラ有効
-	bool isDebugCameraActive_ = false;
+	//終了フラグ
+	bool cleared_ = false;
+	bool finished_ = false;
 
 	/// <summary>
 	/// ゲームシーン用
