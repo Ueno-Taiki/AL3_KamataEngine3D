@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Input.h"
 #include "MathUtilityForText.h"
+#include "TextureManager.h"
 
 void Player::Initialize(Model* model, uint32_t textureHandle) {
 	//NULLポインタチャック
@@ -10,6 +11,18 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 	//引数として受け取ったデータをメンバ変数に記録
 	model_ = model;
 	textureHandle_ = textureHandle;
+
+	//ファイルを指定してテクスチャを読み込む
+	TextureHandle_[0] = TextureManager::Load("PlayerLife1.png");
+	TextureHandle_[1] = TextureManager::Load("PlayerLife2.png");
+
+	//スプライトの生成
+	sprite_[0] = Sprite::Create(TextureHandle_[0], {20, 20});
+	sprite_[1] = Sprite::Create(TextureHandle_[0], {120, 20});
+	sprite_[2] = Sprite::Create(TextureHandle_[0], {220, 20});
+	sprite_[3] = Sprite::Create(TextureHandle_[1], {20, 20});
+	sprite_[4] = Sprite::Create(TextureHandle_[1], {120, 20});
+	sprite_[5] = Sprite::Create(TextureHandle_[1], {220, 20});
 
 	//シングルトンインスタンスを取得する
 	input_ = Input::GetInstance();
@@ -22,6 +35,9 @@ Player::~Player() {
 	//bullet_の解放
 	for (PlayerBullet* bullet : bullets_) {
 		delete bullet;
+	}
+	for (int i = 0; i < 6; i++) {
+		delete sprite_[i];
 	}
 }
 
@@ -105,6 +121,30 @@ void Player::Draw(ViewProjection& viewProjection) {
 	}
 }
 
+//ライフ描画
+void Player::LifeDraw() {
+	if (playerLife == 3) {
+		sprite_[0]->Draw();
+		sprite_[1]->Draw();
+		sprite_[2]->Draw();
+	}
+	if (playerLife == 2) {
+		sprite_[3]->Draw();
+		sprite_[1]->Draw();
+		sprite_[2]->Draw();
+	}
+	if (playerLife == 1) {
+		sprite_[3]->Draw();
+		sprite_[4]->Draw();
+		sprite_[2]->Draw();
+	}
+	if (playerLife == 0) {
+		sprite_[3]->Draw();
+		sprite_[4]->Draw();
+		sprite_[5]->Draw();
+	}
+}
+
 //旋回
 void Player::Rotate() {
 	//回転速さ[ラジアン/frame]
@@ -151,6 +191,12 @@ Vector3 Player::GetWorldPosition() const {
 
 //衝突を検出したら呼び出されるコールバック関数
 void Player::OnCollision() { 
-	isDead_ = true; 
+	//ダメージを受ける
+	playerLife -= damage;
+
+	//ライフが0の時死ぬ
+	if (playerLife == 0) {
+		isDead_ = true;
+	}
 }
 

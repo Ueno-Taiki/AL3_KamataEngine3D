@@ -1,8 +1,11 @@
 #pragma once
 
 #include <list>
+#include "Audio.h"
+#include "DirectXCommon.h"
 #include "Model.h"
 #include "Input.h"
+#include "Sprite.h"
 #include "WorldTransform.h"
 #include "PlayerBullet.h"
 
@@ -28,6 +31,9 @@ public:
 	/// </summary>
 	void Draw(ViewProjection& viewProjection);
 
+	//ライフ描画
+	void LifeDraw();
+
 	//旋回
 	void Rotate();
 
@@ -50,6 +56,10 @@ public:
 	bool isDead() const { return isDead_; }
 
 private:
+	DirectXCommon* dxCommon_ = nullptr;
+	Input* input_ = nullptr;
+	Audio* audio_ = nullptr;
+
 	//ワールド変換データ
 	WorldTransform worldTransform_;
 	//モデル
@@ -57,8 +67,16 @@ private:
 	//テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
 
-	//キーボード入力
-	Input* input_ = nullptr;
+	// テクスチャハンドル
+	uint32_t TextureHandle_[2];
+
+	//スプライト
+	Sprite* sprite_[6];
+
+	//ライフ
+	float playerLife = 3.0f;
+	//ダメージ
+	int damage = 1;
 
 	//弾
 	std::list<PlayerBullet*> bullets_;

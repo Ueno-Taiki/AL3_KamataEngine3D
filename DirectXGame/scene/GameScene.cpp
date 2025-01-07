@@ -130,6 +130,9 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
+	
+	//自機のライフ描画
+	player_->LifeDraw();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
