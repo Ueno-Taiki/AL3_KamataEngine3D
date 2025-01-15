@@ -7,9 +7,6 @@ void RailCamera::Initialize(const Vector3& positon, const Vector3& radian) {
 	//ワールドトランスフォームの初期設定
 	worldTransfrom_.translation_ = positon;
 	worldTransfrom_.rotation_ = radian;
-
-	//デバックカメラの生成
-	debugCamera_ = new DebugCamera();
 	
 	//ビュープロジェクションの初期化
 	//viewProjection_.farZ = 600;

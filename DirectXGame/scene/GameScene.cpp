@@ -71,6 +71,8 @@ void GameScene::Update() {
 	enemy_->Update();
 
 	//レールカメラの更新
+	viewProjection_.matView = 
+	viewProjection_.matProjection = viewProjection_.matProjection;
 	railCamera_->Update();
 
 	//大親分による判定

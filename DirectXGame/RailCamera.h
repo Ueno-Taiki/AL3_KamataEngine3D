@@ -25,7 +25,4 @@ private:
 	WorldTransform worldTransfrom_;
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
-
-	//デバックカメラ
-	DebugCamera* debugCamera_ = nullptr;
 };
