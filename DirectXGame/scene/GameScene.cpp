@@ -58,10 +58,7 @@ void GameScene::Initialize() {
 	Vector3 railCameraRadius = {0, 0, -20};
 	//レールカメラの初期化
 	railCamera_->Initialize(railCameraPosition, railCameraRadius);
-
-	//デバックカメラの生成
-	debugCamera_ = new DebugCamera();
-
+	
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
 }
@@ -77,8 +74,8 @@ void GameScene::Update() {
 	viewProjection_.matView = 
 	viewProjection_.matProjection = viewProjection_.matProjection;
 	railCamera_->Update();
-	viewProjection_.matView = debugCamera_->GetViewProjection().matView;
-	viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
+	viewProjection_.matView = railCamera_->GetViewProjection().matView;
+	viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
 
 	//大親分による判定
 	CheckAllCollisions();

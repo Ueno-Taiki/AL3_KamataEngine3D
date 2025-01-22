@@ -6,7 +6,6 @@
 #include "Model.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
-#include "DebugCamera.h"
 
 class RailCamera {
 public:
@@ -19,6 +18,9 @@ public:
 	/// 毎フレーム処理
 	/// </summary>
 	void Update();
+
+	//ビュープロジェクションを取得
+	const ViewProjection& GetViewProjection() { return viewProjection_; }
 
 private:
 	//ワールド変換データ
