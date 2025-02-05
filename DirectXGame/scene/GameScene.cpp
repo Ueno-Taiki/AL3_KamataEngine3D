@@ -53,9 +53,9 @@ void GameScene::Initialize() {
 	//レールカメラの生成
 	railCamera_ = new RailCamera();
 	//レールカメラの座標
-	Vector3 railCameraPosition = {0, 0, -20};
+	Vector3 railCameraPosition = {0, 0, -50};
 	//レールカメラの角度
-	Vector3 railCameraRadius = {0, 0, -20};
+	Vector3 railCameraRadius = {0, 0, 0};
 	//レールカメラの初期化
 	railCamera_->Initialize(railCameraPosition, railCameraRadius);
 	
@@ -74,6 +74,8 @@ void GameScene::Update() {
 	railCamera_->Update();
 	viewProjection_.matView = railCamera_->GetViewProjection().matView;
 	viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
+	//ビュープロジェクション行列の転送
+	viewProjection_.TransferMatrix();
 
 	//大親分による判定
 	CheckAllCollisions();
